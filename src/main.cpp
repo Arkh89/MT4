@@ -2,24 +2,28 @@
 
 int main(int argc, char** argv)
 {
-	sf::Window App(sf::VideoMode(800, 600, 32), "SFML Window");
+	sf::Window app(sf::VideoMode(640, 480, 32), "M4T Window");
 
-	bool Running = true;
-	while(Running)
+	bool running = true;
+
+	while(running)
 	{
+		sf::Event event;
 
-		sf::Event Event;
-		while (App.GetEvent(Event))
+		// While there is an event to process
+		while(app.GetEvent(event))
 		{
-			// Window closed
-			if (Event.Type == sf::Event::Closed)
-				Running = false;
+			// If the window is closed : stop
+			if (event.Type == sf::Event::Closed)
+				running = false;
 
-			// Escape key pressed
-			if ((Event.Type == sf::Event::KeyPressed) && (Event.Key.Code == sf::Key::Escape))
-				Running = false;
+			// If the key escape is pressed : stop
+			if ((event.Type == sf::Event::KeyPressed) && (event.Key.Code == sf::Key::Escape))
+				running = false;
 		}
-		App.Display();
+
+		// Display the window
+		app.Display();
 	}
 
 	return 0;
