@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1330143876 source:/media/Data/Data/Code/MT4/src/main.cpp
+	"MT4Header.hpp"
+
+1330143948 /media/Data/Data/Code/MT4/src/MT4Header.hpp
+	<iostream>
+	<SFML/Window.hpp>
+
