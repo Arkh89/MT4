@@ -2,7 +2,7 @@
 
 int main(int argc, char** argv)
 {
-	sf::Window app(sf::VideoMode(640, 480, 32), "M4T Window");
+	sf::Window app(sf::VideoMode(640, 480, 32), "MT4 Window");
 
 	bool running = true;
 
