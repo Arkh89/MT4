@@ -2,6 +2,6 @@
 #define __MT4_HEADER_MAIN__
 
 	#include <iostream>
-	#include <SFML/Window.hpp>
+	#include "Vect2D.hpp"
 
 #endif

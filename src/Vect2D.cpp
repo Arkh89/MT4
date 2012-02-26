@@ -1,23 +1,22 @@
 #include <iostream>
-#include "math.h"
-#include "vect2D.hpp"
+#include <cmath>
+#include "Vect2D.hpp"
 
 Vect2D::Vect2D(void)
-:x(0),y(0)
+ : x(0),y(0)
 { }
 
 Vect2D::Vect2D(int _x, int _y)
-:x(_x),y(_y)
+ : x(_x),y(_y)
 { }
 
 Vect2D::Vect2D(const Vect2D& v)
-:x(v.x),y(v.y)
+ : x(v.x),y(v.y)
 { }
 
 Vect2D::Vect2D(TValue theta)
-:x(cos(theta)),y(sin(theta))
+ : x(cos(theta)),y(sin(theta))
 { }
-
 
 Vect2D Vect2D::operator+(const Vect2D& v) const
 {
