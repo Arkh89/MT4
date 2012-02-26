@@ -6,3 +6,13 @@
 	<iostream>
 	<SFML/Window.hpp>
 
+1330217093 source:/media/local_hdd/Data/Code/Projects/C-C++/MT4/src/main.cpp
+	"MT4Header.hpp"
+
+1330230694 /media/local_hdd/Data/Code/Projects/C-C++/MT4/src/MT4Header.hpp
+	<iostream>
+	<SFML/Window.hpp>
+	"vect2D.hpp"
+
+1330230732 /media/local_hdd/Data/Code/Projects/C-C++/MT4/src/vect2D.hpp
+
