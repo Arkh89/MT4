@@ -68,7 +68,7 @@ Vect2D Vect2D::operator/(TValue s) const
 {
 	Vect2D copie;
 	copie.x = x / (s);
-	copie.y = y / (y);
+	copie.y = y / (s);
 	return copie;
 }
 
@@ -134,8 +134,8 @@ Vect2D& Vect2D::operator/=(TValue s)
 
 TValue Vect2D::norm(void) const
 {
-	TValue dis = pow(x,2) + pow(y,2);
-	return  pow(dis,0.5);
+	TValue dis = x*x + y*y;
+	return  sqrt(dis);
 }
 
 void Vect2D::makeUnitary(void)
@@ -162,14 +162,13 @@ TValue Vect2D::scalarProd(const Vect2D& v) const
 
 TValue Vect2D::distance(const Vect2D& v) const
 {
-	TValue d = pow(pow(x-v.x,2)+pow(y-v.y,2),0.5);
+	TValue d = sqrt((x-v.x)*(x-v.x)+(y-v.y)*(y-v.y));
 	return d;
 }
 
 TValue Vect2D::angleX(void) const
 {
-	Vect2D X(1,0);
-	TValue theta = acos( scalarProd(X)/norm() );
+	TValue theta = acos( x/norm() );
 	return theta;
 }
 
