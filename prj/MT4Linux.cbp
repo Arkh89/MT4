@@ -35,7 +35,7 @@
 				</MakeCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="../MT4Linux" prefix_auto="1" extension_auto="1" />
+				<Option output="../MT4" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../MT4" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
