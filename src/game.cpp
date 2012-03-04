@@ -8,7 +8,7 @@
 
 		// Create Timer :
 		timer = new QTimer;
-		timer->setInterval(1.0/fps);
+		timer->setInterval(1000.0/fps);
 
 		// Connect event on timer
 		connect(timer, SIGNAL(timeout()),this, SLOT(update()));

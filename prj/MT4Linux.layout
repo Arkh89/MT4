@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../src/MT4Header.hpp" open="1" top="1" tabpos="1">
-		<Cursor position="114" topLine="0" />
+	<File name="../MT4.pro" open="0" top="0" tabpos="0">
+		<Cursor position="289" topLine="0" />
 	</File>
-	<File name="../src/main.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="115" topLine="0" />
+	<File name="../src/MT4Header.hpp" open="0" top="0" tabpos="1">
+		<Cursor position="96" topLine="0" />
+	</File>
+	<File name="../src/main.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="139" topLine="0" />
 	</File>
 	<File name="../src/segment.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="837" topLine="63" />
+		<Cursor position="1387" topLine="30" />
 	</File>
 	<File name="../src/segment.hpp" open="0" top="0" tabpos="0">
-		<Cursor position="705" topLine="11" />
+		<Cursor position="325" topLine="3" />
+	</File>
+	<File name="../src/vect2D.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="208" topLine="15" />
+	</File>
+	<File name="../src/vect2D.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="1199" topLine="8" />
 	</File>
 </CodeBlocks_layout_file>
