@@ -1,20 +1,31 @@
 // Le calcul de la normale est fait dans les constructeurs (je suis pas sûr que ce soit le bon endroit ?)
 // Et deuxième point c'est un vecteur unitaire d'origine en zéro du coup
 
+/// Oui, enfin un veteur ca ne part d'une origine. En plus, il faudrait faire une fonction privee updateNormalVector(void) qui le fasse et qui soit appellee depuis les constructeurs et aussi depuis deux accesseurs void setPt1(const Vect2D& pt); et void setPt1(const Vect2D& pt);.
+
+/// On pourrait aussi faire deux fonctions setLink1(const Segment& seg) qui ferait en sorte de mettre le pt1 de this egal au pt2 de seg, et setLink2(const Segment& seg) qui ferait la meme chose pour pt2 de this et pt1 de seg
+
+/// on pourrait aussi faire une fonction Segment getInterval(const Segment& seg) qui retournerait un segment entre les points this->pt2 et seg.pt1.
+
 #include <iostream>
 #include "segment.hpp"
 
-
-
-Segment::Segment(void):v1(),v2(),n()
+Segment::Segment(void)
+ : v1(), v2(), n() /// pas utile, si ce n'est pas explicitement specifie, ce constructeur va appeller automatiquement les constructeurs par defaut de ces objets...
 {
 }
 
-Segment::Segment(int _x1,int _x2,int _y1,int _y2):v1(_x1,_y1),v2(_x2,_y2)
+Segment::Segment(int _x1, int _x2, int _y1, int _y2)
+ : v1(_x1,_y1), v2(_x2,_y2)
 {
 	TValue D = (_y2 - _y1) / (_x2 - _x1);
 	n.x = - ( D ) / sqrt(1 + D*D);
 	n.y = + ( 1 ) / sqrt(1 + D*D);
+
+	/// Pour moi l'algo de la normale c'est plutot :
+	/// TValue d = length();
+	/// n.x = - (pt2.y - pt1.y)/d;
+	/// n.y =   (pt2.x - pt1.x)/d;
 }
 
 Segment::Segment(const Vect2D& vect1, const Vect2D& vect2):v1(vect1),v2(vect2)
@@ -26,7 +37,7 @@ Segment::Segment(const Vect2D& vect1, const Vect2D& vect2):v1(vect1),v2(vect2)
 
 
 
-TValue Segment::distance(const Segment& seg) const
+TValue Segment::distance(const Segment& seg) const // Pourquoi un argument?
 {
 	TValue dist = sqrt( (v2.x - v1.x)*(v2.x - v1.x) + (v2.y - v1.y)*(v2.y - v1.y) );
 	return dist;
@@ -38,6 +49,12 @@ TValue Segment::distSeg(const Vect2D& v) const
 	TValue D = (v2.x - v1.x) / (v2.y - v1.y);
 	TValue DSeg = n.Vect2D::scalarProd(v) / sqrt(1 + D*D);
 	return DSeg;
+	/// Euh je connais pas ces formules...
+	/// Vect2D proj = v - v1;
+	/// return proj.scalarProd(n);
+
+	/// Et ca c'est pour la distance a une droite mais pas la distance a un segment.
+	/// Tu peux utiliser un papier et un crayon pour t'en persuader... 8)
 }
 
 
@@ -48,6 +65,8 @@ TValue Segment::distSeg(const Vect2D& v) const
 // Mais pour la multiplication ou la division par un scalaire j'ai deux versions qui me viennent, une a priori bête on multiplie
 // les deux vecteurs par s du coup le segment conserve l'angle et s-uple sa norme mais n' plus la même origine. Ou la version deux
 // que j'imagine plus on conserve angle et origine mais on s-uple la norme
+
+/// Je suis pas certain que ca soit utile d'avoir des arguments...
 
 // Version 1
 
