@@ -1,7 +1,7 @@
 // Le calcul de la normale est fait dans les constructeurs (je suis pas sûr que ce soit le bon endroit ?)
 // Et deuxième point c'est un vecteur unitaire d'origine en zéro du coup
 
-/// Oui, enfin un veteur ca ne part d'une origine. En plus, il faudrait faire une fonction privee updateNormalVector(void) qui le fasse et qui soit appellee depuis les constructeurs et aussi depuis deux accesseurs void setPt1(const Vect2D& pt); et void setPt1(const Vect2D& pt);.
+/// Oui, enfin un veteur ca ne part d'une origine. En plus, il faudrait faire une fonction privee updateNormalVector(void) qui le fasse et qui soit appellee depuis les constructeurs et aussi depuis deux accesseurs void setPt1(const Vect2D& pt); et void setPt2(const Vect2D& pt);.
 
 /// On pourrait aussi faire deux fonctions setLink1(const Segment& seg) qui ferait en sorte de mettre le pt1 de this egal au pt2 de seg, et setLink2(const Segment& seg) qui ferait la meme chose pour pt2 de this et pt1 de seg
 
@@ -15,17 +15,19 @@ Segment::Segment(void)
 {
 }
 
-Segment::Segment(int _x1, int _x2, int _y1, int _y2)
+Segment::Segment(TValue _x1, TValue _y1, TValue _x2, TValue _y2)
  : v1(_x1,_y1), v2(_x2,_y2)
 {
-	TValue D = (_y2 - _y1) / (_x2 - _x1);
-	n.x = - ( D ) / sqrt(1 + D*D);
-	n.y = + ( 1 ) / sqrt(1 + D*D);
+	/// Me donne un beau "Floating Exception" (erreur de calcul = division par 0)
+	/// Que se passe t'il lorsqu'on a un vecteur vertical? x2==x1?
+	//TValue D = (_y2 - _y1) / (_x2 - _x1);
+	//n.x = - ( D ) / sqrt(1 + D*D);
+	//n.y = + ( 1 ) / sqrt(1 + D*D);
 
 	/// Pour moi l'algo de la normale c'est plutot :
-	/// TValue d = length();
-	/// n.x = - (pt2.y - pt1.y)/d;
-	/// n.y =   (pt2.x - pt1.x)/d;
+	TValue d = length();
+	n.x = - (v2.y - v1.y)/d;
+	n.y =   (v2.x - v1.x)/d;
 }
 
 Segment::Segment(const Vect2D& vect1, const Vect2D& vect2):v1(vect1),v2(vect2)
@@ -35,12 +37,14 @@ Segment::Segment(const Vect2D& vect1, const Vect2D& vect2):v1(vect1),v2(vect2)
 	n.y = + ( 1 ) / sqrt(1 + D*D);
 }
 
+TValue Segment::getX1(void) const { return v1.x; }
+TValue Segment::getX2(void) const { return v2.x; }
+TValue Segment::getY1(void) const { return v1.y; }
+TValue Segment::getY2(void) const { return v2.y; }
 
-
-TValue Segment::distance(const Segment& seg) const // Pourquoi un argument?
+TValue Segment::length(void) const
 {
-	TValue dist = sqrt( (v2.x - v1.x)*(v2.x - v1.x) + (v2.y - v1.y)*(v2.y - v1.y) );
-	return dist;
+	return sqrt( (v2.x - v1.x)*(v2.x - v1.x) + (v2.y - v1.y)*(v2.y - v1.y) );
 }
 
 
@@ -98,6 +102,3 @@ Segment& Segment::operator/=(TValue s)
 // 	v2.y += (v2.y - v1.y)/s;
 // 	return *this;
 // }
-
-
-

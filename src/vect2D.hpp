@@ -12,7 +12,7 @@ typedef float TValue;
 		TValue x,y;
 
 		Vect2D(void); // x = 0, y = 0
-		Vect2D(int _x, int _y); // x = _x,y = _y
+		Vect2D(TValue _x, TValue _y); // x = _x,y = _y
 		Vect2D(const Vect2D& v); // x = v.x, y = v.y
 		Vect2D(TValue theta); //
 
@@ -45,10 +45,5 @@ typedef float TValue;
 
 
         ostream &operator<<( ostream &flux, Vect2D const& v);
-
-
-
-
-
 
 #endif // VECT2D_HPP_INCLUDED

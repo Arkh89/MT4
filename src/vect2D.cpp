@@ -6,7 +6,7 @@ Vect2D::Vect2D(void)
  : x(0),y(0)
 { }
 
-Vect2D::Vect2D(int _x, int _y)
+Vect2D::Vect2D(TValue _x, TValue _y)
  : x(_x),y(_y)
 { }
 

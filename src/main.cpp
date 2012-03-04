@@ -3,5 +3,8 @@
 int main(int argc, char** argv)
 {
 	std::cout << "Hello Mary!" << std::endl;
-	return 0;
+
+	Game game(argc,argv,640,480,30);
+
+	return game.exec();
 }

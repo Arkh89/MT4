@@ -13,10 +13,15 @@ class Segment
 {
 	public:
 		Segment(void);
-		Segment(int _x1,int _x2,int _y1,int _y2);
+		Segment(TValue _x1, TValue _y1, TValue _x2, TValue _y2);
 		Segment(const Vect2D& vect1, const Vect2D& vect2);
 
-		TValue distance(const Segment& seg) const; // taille du segment : a changer en length, non?
+		TValue getX1(void) const;
+		TValue getX2(void) const;
+		TValue getY1(void) const;
+		TValue getY2(void) const;
+
+		TValue length(void) const;
 		TValue distSeg(const Vect2D& v) const; // Distance d'un point au segment
 
 		Segment& operator*=(TValue s);

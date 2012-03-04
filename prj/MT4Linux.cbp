@@ -67,8 +67,13 @@
 		<ExtraCommands>
 			<Add before="qmake" />
 		</ExtraCommands>
+		<Unit filename="../MT4.pro" />
 		<Unit filename="../src/MT4Header.hpp" />
+		<Unit filename="../src/game.cpp" />
+		<Unit filename="../src/game.hpp" />
 		<Unit filename="../src/main.cpp" />
+		<Unit filename="../src/renderer.cpp" />
+		<Unit filename="../src/renderer.hpp" />
 		<Unit filename="../src/segment.cpp" />
 		<Unit filename="../src/segment.hpp" />
 		<Unit filename="../src/vect2D.cpp" />
