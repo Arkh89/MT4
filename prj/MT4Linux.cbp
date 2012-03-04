@@ -71,6 +71,8 @@
 		<Unit filename="../src/Vect2D.cpp" />
 		<Unit filename="../src/Vect2D.hpp" />
 		<Unit filename="../src/main.cpp" />
+		<Unit filename="../src/segment.cpp" />
+		<Unit filename="../src/segment.hpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />
