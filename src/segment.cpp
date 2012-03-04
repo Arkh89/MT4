@@ -35,9 +35,8 @@ TValue Segment::distance(const Segment& seg) const
 
 TValue Segment::distSeg(const Vect2D& v) const
 {
-	Vect2D segV( v2.x - v1.x, v2.y - v1.y );
-	TValue D = segV.y / segV.y;
-	TValue DSeg = segV.Vect2D::scalarProd(v) / sqrt(1 + D*D);
+	TValue D = (v2.x - v1.x) / (v2.y - v1.y);
+	TValue DSeg = n.Vect2D::scalarProd(v) / sqrt(1 + D*D);
 	return DSeg;
 }
 
