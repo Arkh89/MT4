@@ -19,6 +19,7 @@
 			void apply(void);
 
 			// Primitive drawing :
+			void draw(const Vect2D& pt);
 			void draw(const Segment& s);
 	};
 

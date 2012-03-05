@@ -26,6 +26,14 @@
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
+	void Renderer::draw(const Vect2D& pt)
+	{
+		glBegin(GL_POINTS);
+			glColor3ub(255,0,0);
+			glVertex2f(pt.x,pt.y);
+		glEnd();
+	}
+
 	void Renderer::draw(const Segment& s)
 	{
 		glBegin(GL_LINES);
