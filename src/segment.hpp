@@ -23,6 +23,11 @@ class Segment
 
 		TValue length(void) const;
 		TValue distSeg(const Vect2D& v) const; // Distance d'un point au segment
+		void setPt1(const Vect2D& pt);
+		void setPt2(const Vect2D& pt);
+		void setLink1(const Segment& seg);
+		void setLink2(const Segment& seg);
+		Segment getInterval(const Segment& seg);
 
 		Segment& operator*=(TValue s);
 		Segment& operator/=(TValue s);
@@ -31,7 +36,8 @@ class Segment
 	protected:
 
 	private:
-		Vect2D v1,v2,n; // on utilisera plutot les noms pt1 et pt2 parce que ce ne sont plus des vecteurs mais vraiment des points (et ca aide a comprendre le code...)
+		void updateNormalVector(void);
+		Vect2D pt1,pt2,n; // on utilisera plutot les noms pt1 et pt2 parce que ce ne sont plus des vecteurs mais vraiment des points (et ca aide a comprendre le code...)
 };
 
 #endif // SEGMENT_HPP_INCLUDED
