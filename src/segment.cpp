@@ -22,6 +22,7 @@ TValue Segment::getX2(void) const { return pt2.x; }
 TValue Segment::getY1(void) const { return pt1.y; }
 TValue Segment::getY2(void) const { return pt2.y; }
 
+
 TValue Segment::length(void) const
 {
 	return sqrt( (pt2.x - pt1.x)*(pt2.x - pt1.x) + (pt2.y - pt1.y)*(pt2.y - pt1.y) );
@@ -53,21 +54,25 @@ void Segment::updateNormalVector(void)
 void Segment::setPt1(const Vect2D& pt)
 {
 	pt1 = pt;
+	updateNormalVector();
 }
 
 void Segment::setPt2(const Vect2D& pt)
 {
 	pt2 = pt;
+	updateNormalVector();
 }
 
 void Segment::setLink1(const Segment& seg)
 {
 	pt1 = seg.pt2;
+	updateNormalVector();
 }
 
 void Segment::setLink2(const Segment& seg)
 {
 	pt2 = seg.pt1;
+	updateNormalVector();
 }
 
 Segment Segment::getInterval(const Segment& seg)
