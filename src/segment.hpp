@@ -20,6 +20,8 @@ class Segment
 		TValue getX2(void) const;
 		TValue getY1(void) const;
 		TValue getY2(void) const;
+		const Vect2D& getPt1(void) const;
+		const Vect2D& getPt2(void) const;
 
 		TValue length(void) const;
 		TValue distSeg(const Vect2D& v) const; // Distance d'un point au segment
@@ -29,6 +31,8 @@ class Segment
 		void setLink2(const Segment& seg);
 		Segment getInterval(const Segment& seg);
 
+		void operator<<(const Segment& seg);
+		void operator>>(const Segment& seg);
 		Segment& operator*=(TValue s);
 		Segment& operator/=(TValue s);
 
