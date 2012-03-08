@@ -53,10 +53,11 @@ void Segment::updateNormalVector(void)
 
 Segment Segment::getInterval(const Segment& seg)
 {
-	// Cette fonction contient un bug... ^^
+	// Cette fonction contient un bug... ^^ Un oubli plutôt non ? ;)
 	Segment inter;
 	inter.pt1 = pt2;
 	inter.pt2 = seg.pt1;
+	inter.updateNormalVector();
 	return inter;
 }
 
