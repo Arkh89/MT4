@@ -54,7 +54,7 @@ Vect2D Segment::getPtSeg(TValue alp)
 	v.x = (1-alp)*pt1.x + alp*pt2.x;
 	v.y = (1-alp)*pt1.y + alp*pt2.y;
 	return v;
-	// return Vect2D((1-alp)*pt1 + (alp)*pt2); Bordel pourquoi cette ligne marche pas toute seul ?
+	// return Vect2D((1-alp)*pt1 + (alp)*pt2); Bordel pourquoi cette ligne marche pas toute seule ?
 	// J'ai même essayé Vect2D v1 = pt1; Vect2D = v2; return Vect2D((1-alp)*v1 + alp*pt2); Et même d'autres encore plus
 	// décortiqués jusqu'à la version là au dessus qui me renvoit (enfin) plus l'erreur:
 	// erreur: no match for ‘operator*’ in ‘(1.0e+0 - alp) * ((Segment*)this)->Segment::pt1’| ou variantes
