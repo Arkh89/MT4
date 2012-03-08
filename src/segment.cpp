@@ -53,12 +53,14 @@ void Segment::updateNormalVector(void)
 
 Segment Segment::getInterval(const Segment& seg)
 {
-	// Cette fonction contient un bug... ^^ Un oubli plutôt non ? ;)
+	// Cette fonction contient un bug... ^^ Un oubli plutôt non ? ;) Oui mais ca reste un bug ^^
 	Segment inter;
 	inter.pt1 = pt2;
 	inter.pt2 = seg.pt1;
 	inter.updateNormalVector();
 	return inter;
+	// Je dirais meme plus mon cher Dupont : 
+	// return Segment(pt2,seg.pt1);
 }
 
 void Segment::setPt1(const Vect2D& pt)
