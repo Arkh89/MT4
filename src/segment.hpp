@@ -30,6 +30,8 @@ class Segment
 		void setLink1(const Segment& seg);
 		void setLink2(const Segment& seg);
 		Segment getInterval(const Segment& seg);
+		Vect2D getPtSeg(TValue alp);
+		Vect2D getMilieu();
 
 		void operator<<(const Segment& seg);
 		void operator>>(const Segment& seg);
@@ -41,7 +43,7 @@ class Segment
 
 	private:
 		void updateNormalVector(void);
-		Vect2D pt1,pt2,n; // on utilisera plutot les noms pt1 et pt2 parce que ce ne sont plus des vecteurs mais vraiment des points (et ca aide a comprendre le code...)
+		Vect2D pt1,pt2,n;
 };
 
 #endif // SEGMENT_HPP_INCLUDED

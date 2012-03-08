@@ -1,3 +1,7 @@
+// A part ça vu que etherpad est en rade... j'ai fais les fonctions dont je me rappelais et je crois pas qu'il y en avait d'autres pour
+// la classe segment, non ?
+// Dernièrement: les foncions setlinks, milieu, point du segment avec alpha, getPt1, intervals
+
 #include <iostream>
 #include "segment.hpp"
 
@@ -44,6 +48,26 @@ TValue Segment::distSeg(const Vect2D& v) const
 }
 
 
+Vect2D Segment::getPtSeg(TValue alp)
+{
+	Vect2D v;
+	v.x = (1-alp)*pt1.x + alp*pt2.x;
+	v.y = (1-alp)*pt1.y + alp*pt2.y;
+	return v;
+	// return Vect2D((1-alp)*pt1 + (alp)*pt2); Bordel pourquoi cette ligne marche pas toute seul ?
+	// J'ai même essayé Vect2D v1 = pt1; Vect2D = v2; return Vect2D((1-alp)*v1 + alp*pt2); Et même d'autres encore plus
+	// décortiqués jusqu'à la version là au dessus qui me renvoit (enfin) plus l'erreur:
+	// erreur: no match for ‘operator*’ in ‘(1.0e+0 - alp) * ((Segment*)this)->Segment::pt1’| ou variantes
+	// Donc ué je comprends pas operator* est défini pour un Vect2D or pour moi ((Segment*)this)->Segment::pt1 == Vect2D non ?
+	// Si t'as le temps dis moi pourquoi !! Thanks !
+}
+
+Vect2D Segment::getMilieu()
+{
+	Vect2D v = getPtSeg(0.5);
+	return v;
+}
+
 void Segment::updateNormalVector(void)
 {
 	TValue d = length();
@@ -53,12 +77,7 @@ void Segment::updateNormalVector(void)
 
 Segment Segment::getInterval(const Segment& seg)
 {
-	// Cette fonction contient un bug... ^^ Un oubli plutôt non ? ;)
-	Segment inter;
-	inter.pt1 = pt2;
-	inter.pt2 = seg.pt1;
-	inter.updateNormalVector();
-	return inter;
+	return Segment(pt2,seg.pt1); // Ok je vois Dupont effectivement c'est plus... concis ^^
 }
 
 void Segment::setPt1(const Vect2D& pt)
@@ -99,9 +118,6 @@ void Segment::operator>>(const Segment& seg)
 }
 
 
-
-
-
 Segment& Segment::operator*=(TValue s)
 {
  	pt2.x += (pt2.x - pt1.x)*s;
@@ -115,3 +131,5 @@ Segment& Segment::operator/=(TValue s)
  	pt2.y += (pt2.y - pt1.y)/s;
  	return *this;
 }
+
+
