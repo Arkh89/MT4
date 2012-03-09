@@ -1,6 +1,7 @@
 // A part ça vu que etherpad est en rade... j'ai fais les fonctions dont je me rappelais et je crois pas qu'il y en avait d'autres pour
 // la classe segment, non ?
 // Dernièrement: les foncions setlinks, milieu, point du segment avec alpha, getPt1, intervals
+// Je pense que c'est a peu pres tout pour cette classe.On ajoutera plus tard si on a besoin...
 
 #include <iostream>
 #include "segment.hpp"
@@ -34,10 +35,8 @@ TValue Segment::length(void) const
 	return sqrt( (pt2.x - pt1.x)*(pt2.x - pt1.x) + (pt2.y - pt1.y)*(pt2.y - pt1.y) );
 }
 
-
 TValue Segment::distSeg(const Vect2D& v) const
 {
-
 	if((pt2-pt1).scalarProd(v-pt1) * (pt2-pt1).scalarProd(v-pt2) > 0)
 		return min((v-pt1).norm(),(v-pt2).norm());
 	else
@@ -46,7 +45,6 @@ TValue Segment::distSeg(const Vect2D& v) const
 		return proj.scalarProd(n);
 	}
 }
-
 
 Vect2D Segment::getPtSeg(TValue alp)
 {
@@ -60,12 +58,13 @@ Vect2D Segment::getPtSeg(TValue alp)
 	// erreur: no match for ‘operator*’ in ‘(1.0e+0 - alp) * ((Segment*)this)->Segment::pt1’| ou variantes
 	// Donc ué je comprends pas operator* est défini pour un Vect2D or pour moi ((Segment*)this)->Segment::pt1 == Vect2D non ?
 	// Si t'as le temps dis moi pourquoi !! Thanks !
+	// Elementaire mon cher Watson : tu as defini l'operateur* pour la classe Vect2D avec un TValue en argument. Du coup, pour appeler cette fonction il faut faire v*a, ou v est un Vect2D et a un TValue. Si tu fais a*v tu appelles la fonction operator* pour TValue avec en argument un Vect2D, ce qui n'est pas la meme fonction et qui n'est pas definie dans ton code (en plus). Pour y remedier, tu peux ecrire une fonction dans Vect2D.hpp/Vect2D.cpp mais a l'exterieur de la classe Vect2D : Vect2D operator*(TValue a, const Vect2D& v); qui va bien, OU choisir de toujours mettre dans l'ordre opppose : return Vect2D(pt1*(1-alp) + pt2*alp);
 }
 
 Vect2D Segment::getMilieu()
 {
 	Vect2D v = getPtSeg(0.5);
-	return v;
+	return v; // Et meme plus : return getPtSeg(0.5);
 }
 
 void Segment::updateNormalVector(void)
@@ -104,7 +103,8 @@ void Segment::setLink2(const Segment& seg)
 	updateNormalVector();
 }
 
-// Il me semble que tu m'avais parlé d'un truc comme ça non pour les links, le faire avec les op << et >> ? enfin j'ai fait les deux...
+// Il me semble que tu m'avais parlé d'un truc comme ça non pour les links, le faire avec les op << et >> ? enfin j'ai fait les deux... 
+// Ok, je sais pas encore trop si l'on va s'en servir...
 void Segment::operator<<(const Segment& seg)
 {
 	pt2 = seg.pt1;
