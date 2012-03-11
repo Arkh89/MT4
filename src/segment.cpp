@@ -50,22 +50,12 @@ TValue Segment::distSeg(const Vect2D& v) const
 
 Vect2D Segment::getPtSeg(TValue alp)
 {
-	Vect2D v;
-	v.x = (1-alp)*pt1.x + alp*pt2.x;
-	v.y = (1-alp)*pt1.y + alp*pt2.y;
-	return v;
-	// return Vect2D((1-alp)*pt1 + (alp)*pt2); Bordel pourquoi cette ligne marche pas toute seule ?
-	// J'ai même essayé Vect2D v1 = pt1; Vect2D = v2; return Vect2D((1-alp)*v1 + alp*pt2); Et même d'autres encore plus
-	// décortiqués jusqu'à la version là au dessus qui me renvoit (enfin) plus l'erreur:
-	// erreur: no match for ‘operator*’ in ‘(1.0e+0 - alp) * ((Segment*)this)->Segment::pt1’| ou variantes
-	// Donc ué je comprends pas operator* est défini pour un Vect2D or pour moi ((Segment*)this)->Segment::pt1 == Vect2D non ?
-	// Si t'as le temps dis moi pourquoi !! Thanks !
+	return Vect2D((1-alp)*pt1 + alp*pt2);
 }
 
 Vect2D Segment::getMilieu()
 {
-	Vect2D v = getPtSeg(0.5);
-	return v;
+	return getPtSeg(0.5);
 }
 
 void Segment::updateNormalVector(void)
@@ -77,7 +67,7 @@ void Segment::updateNormalVector(void)
 
 Segment Segment::getInterval(const Segment& seg)
 {
-	return Segment(pt2,seg.pt1); // Ok je vois Dupont effectivement c'est plus... concis ^^
+	return Segment(pt2,seg.pt1);
 }
 
 void Segment::setPt1(const Vect2D& pt)

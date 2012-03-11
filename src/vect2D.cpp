@@ -184,4 +184,19 @@ ostream &operator<<( ostream &flux, Vect2D const& v)
 	return flux;
 }
 
-///Useless comments
+
+Vect2D operator*(TValue s, const Vect2D& v)
+{
+	Vect2D vect;
+	vect.x = s * v.x;
+	vect.y = s * v.y;
+	return vect;
+}
+
+Vect2D operator/(TValue s, const Vect2D& v)
+{
+	Vect2D vect;
+	vect.x = s / v.x;
+	vect.y = s / v.y;
+	return vect;
+}

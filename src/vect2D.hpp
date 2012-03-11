@@ -43,7 +43,8 @@ typedef float TValue;
 		Vect2D getUnitary(void) const;
 	};
 
-
+	Vect2D operator*(TValue s, const Vect2D& v);
+	Vect2D operator/(TValue s, const Vect2D& v);
         ostream &operator<<( ostream &flux, Vect2D const& v);
 
 #endif // VECT2D_HPP_INCLUDED
