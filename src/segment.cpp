@@ -1,7 +1,3 @@
-// A part ça vu que etherpad est en rade... j'ai fais les fonctions dont je me rappelais et je crois pas qu'il y en avait d'autres pour
-// la classe segment, non ?
-// Dernièrement: les foncions setlinks, milieu, point du segment avec alpha, getPt1, intervals
-
 #include <iostream>
 #include "segment.hpp"
 
@@ -94,7 +90,6 @@ void Segment::setLink2(const Segment& seg)
 	updateNormalVector();
 }
 
-// Il me semble que tu m'avais parlé d'un truc comme ça non pour les links, le faire avec les op << et >> ? enfin j'ai fait les deux...
 void Segment::operator<<(const Segment& seg)
 {
 	pt2 = seg.pt1;
