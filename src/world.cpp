@@ -7,7 +7,7 @@ World(void)
 { }
 
 
-int World::getTime()
+int World::getTime() // Prefere un resultat en double (si on peut etre plus precis que une milliseconde, c'est cool). Et il manque un void en argument 
 {
 	return time= 1000 * (clock() - time0)/CLOCKS_PER_SEC;
 }
@@ -23,9 +23,10 @@ int World::getTime()
 //int main()
 //{
 //	std::cout << "Hello Mary!" << std::endl;
-//	World w();
-//	int s = w.getTime();
-//	cout << s <<endl;
+//	World w(); <= Deuxieme fois : il ne faut jamais expliciter le constructeur (void)!
+//	World w; // <= Bonne version
+//	int s = w.getTime(); // Meme chose que World::getTime(); (on a pas besoin d'un objet World pour appeller la methode)
+//	cout << s << endl;
 //	return 0;
 //}
 
