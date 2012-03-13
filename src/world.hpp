@@ -7,13 +7,12 @@ using namespace std;
 class World
 {
 	public:
+
 		World(void);
-		static int getTime(); // Time ellapsed in ms
+		static double getTime(void); // Time ellapsed in ms
+		static double setTime(double t);
 	private:
-		clock_t time0;
-		static int time;
+		static double time0;
 };
-
-
 
 #endif // WORLD_HPP_INCLUDED
