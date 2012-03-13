@@ -7,6 +7,8 @@ double World::time0 = 0;
 World::World(void)
 { }
 
+World::~World(void)
+{ }
 
 double World::setTime(double t)
 {

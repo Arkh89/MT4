@@ -9,6 +9,7 @@ class World
 	public:
 
 		World(void);
+		~World(void);
 		static double getTime(void); // Time ellapsed in ms
 		static double setTime(double t);
 	private:
