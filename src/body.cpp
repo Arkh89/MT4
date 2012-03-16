@@ -15,6 +15,10 @@ Body::Body(Vect2D pos0, Vect2D v0, double _m, double _k)
  : pos(pos0), v(v0), m(_m), k(_k)
 { }
 
+Body::Body(Vect2D pos0, Vect2D v0, double _m, double _k, Vect2D _R)
+ : pos(pos0), v(v0), m(_m), k(_k), R(_R)
+{ }
+
 Body::~Body(void)
 { }
 
@@ -29,7 +33,7 @@ Vect2D Body::trajectory(double t)
 
 Vect2D Body::getCurPos(double t)
 {
-	return pos += trajectory(t);
+	return pos = trajectory(t);
 }
 
 

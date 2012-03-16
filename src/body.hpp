@@ -12,6 +12,7 @@ class Body
 		Body(void);
 		Body(Vect2D pos0, double _m, double _k);
 		Body(Vect2D pos0, Vect2D v0, double _m, double _k);
+		Body(Vect2D pos0, Vect2D v0, double _m, double _k, Vect2D _R);
 		~Body(void);
 
 		Vect2D trajectory(double t);
