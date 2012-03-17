@@ -1,6 +1,6 @@
 #ifndef VECT2D_HPP_INCLUDED
 #define VECT2D_HPP_INCLUDED
-
+#include <iostream>
 
 using namespace std;
 

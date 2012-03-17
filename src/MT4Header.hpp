@@ -3,5 +3,8 @@
 
 	#include <iostream>
 	#include "game.hpp"
+	#include "world.hpp"
+	#include "body.hpp"
+	#include "vect2D.hpp"
 
 #endif

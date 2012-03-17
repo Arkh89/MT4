@@ -1,5 +1,7 @@
 #include "game.hpp"
 #include "renderer.hpp"
+#include "body.hpp"
+#include "world.hpp"
 
 	Game::Game(int& argc, char** argv,int w, int h, int fps)
 	 : renderer(NULL), timer(NULL), QApplication(argc,argv)
@@ -25,28 +27,27 @@
 
 	void Game::update(void)
 	{
-		static double i = 0.0;
+		static World w;
+		static bool init = false;
 
-		static std::vector<Vect2D> points(1000, Vect2D());
+		static std::vector<Body> bodies(100, Body());
 
-		Segment s1(0.5,-1,-1,1),
-			s2(0,0,0.5f,0.5*sin(i)),
-			s3(0.7*cos(i),0.7*sin(i),-0.7*cos(i),-0.7*sin(i));
-
-		for(int j=0; j<points.size(); j++)
+		if(!init)
 		{
-			double 	phi = 10.0*static_cast<double>(j)/points.size(),
-				r = cos(8.0*(i+phi));
-			points[j].x = r*cos(i+phi);
-			points[j].y = r*sin(i+phi);
-			renderer->draw(points[j]);
+			init = true;
+			for(int i=0; i<bodies.size(); i++)
+			{
+
+				double x = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*2.0-1.0,
+				y = static_cast<double>(rand())/static_cast<double>(RAND_MAX);
+				bodies[i].setNewSpeed(Vect2D(x,y), World::getTime()/1000.0);
+			}
 		}
-
-		renderer->draw(s1);
-		renderer->draw(s2);
-		renderer->draw(s3);
-
+		else
+		{
+			double t = World::getTime();
+			for(int i=0; i<bodies.size(); i++)
+			renderer->draw(bodies[i].getCurPos(t/1000.0));
+		}
 		renderer->apply();
-
-		i += 0.01;
 	}

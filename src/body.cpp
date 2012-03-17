@@ -1,22 +1,26 @@
 #include "body.hpp"
 #include <cmath>
 
-double Body::gN = 9.81;
+Vect2D Body::gN = Vect2D(0.0,9.81);
 
 
 Body::Body(void)
 { }
 
 Body::Body(Vect2D pos0, double _m, double _k)
- : pos(pos0), m(_m), k(_k)
+ : pos(pos0), m(_m), k(_k), tI(0.0)
 { }
 
 Body::Body(Vect2D pos0, Vect2D v0, double _m, double _k)
- : pos(pos0), v(v0), m(_m), k(_k)
+ : pos(pos0), v(v0), m(_m), k(_k), tI(0.0)
 { }
 
 Body::Body(Vect2D pos0, Vect2D v0, double _m, double _k, Vect2D _R)
- : pos(pos0), v(v0), m(_m), k(_k), R(_R)
+ : pos(pos0), v(v0), m(_m), k(_k), R(_R), tI(0.0)
+{ }
+
+Body::Body(Vect2D pos0, Vect2D v0, double _m, double _k, Vect2D _R, double _tI)
+ : pos(pos0), v(v0), m(_m), k(_k), R(_R), tI(_tI)
 { }
 
 Body::~Body(void)
@@ -26,8 +30,8 @@ Body::~Body(void)
 Vect2D Body::trajectory(double t)
 {
 	Vect2D Dv;
-	Dv.x = (m/k) * (v.x) * (1 - exp(-(k/m)*t)) + (R.x/k) * t;
-	Dv.y = (m/k) * ((m/k)*gN + v.y) * (1 - exp(-(k/m)*t))  -  (m/k) * gN * t  + (R.y/k) * t;
+	Dv.x = (m/k) * ((m/k)*gN.x + v.x + (R.x/k) ) * (1 - exp(-(k/m)*  (t - tI) ))  -  (m/k) * gN.x * (t - tI)  + (R.x/k) * (t - tI);
+	Dv.y = (m/k) * ((m/k)*gN.y + v.y + (R.y/k) ) * (1 - exp(-(k/m)*  (t - tI) ))  -  (m/k) * gN.y * (t - tI)  + (R.y/k) * (t - tI);
 	return Dv;
 }
 
@@ -37,7 +41,14 @@ Vect2D Body::getCurPos(double t)
 }
 
 
-void Body::setGrav(double gNew)
+void Body::setNewSpeed(Vect2D s,double ti)
+{
+	tI = ti;
+	v = s;
+}
+
+
+void Body::setGrav(Vect2D gNew)
 {
 	gN = gNew;
 }

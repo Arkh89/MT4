@@ -196,7 +196,7 @@ Vect2D operator*(TValue s, const Vect2D& v)
 Vect2D operator/(TValue s, const Vect2D& v)
 {
 	Vect2D vect;
-	vect.x = s / v.x;
-	vect.y = s / v.y;
+	vect.x = v.x / s;
+	vect.y = v.y / s;
 	return vect;
 }

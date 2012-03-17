@@ -37,8 +37,9 @@
 	void Renderer::draw(const Segment& s)
 	{
 		glBegin(GL_LINES);
-			glColor3ub(255,255,255);
+			glColor3ub(255,255,0);
 			glVertex2f(s.getX1(), s.getY1());
+			glColor3ub(255,0,255);
 			glVertex2f(s.getX2(), s.getY2());
 		glEnd();
 	}
