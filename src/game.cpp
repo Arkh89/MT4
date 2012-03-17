@@ -30,7 +30,7 @@
 		static World w;
 		static bool init = false;
 
-		static std::vector<Body> bodies(100, Body(Vect2D(0,0), Vect2D(0,0), 1000, 1, Vect2D(0,0)));
+		static std::vector<Body> bodies(1000, Body(Vect2D(0,0), Vect2D(0,0), 100, 1, Vect2D(0,0)));
 
 		if(!init)
 		{
@@ -38,8 +38,8 @@
 			for(int i=0; i<bodies.size(); i++)
 			{
 
-				double x = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*2.0-1.0,
-				y = static_cast<double>(rand())/static_cast<double>(RAND_MAX);
+				double x = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*3.0-1.0,
+				y = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*5.0-1.0;
 				bodies[i].setNewSpeed(Vect2D(x,y), World::getTime()/1000.0);
 			}
 		}
