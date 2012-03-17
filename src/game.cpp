@@ -30,7 +30,7 @@
 		static World w;
 		static bool init = false;
 
-		static std::vector<Body> bodies(100, Body());
+		static std::vector<Body> bodies(100, Body(Vect2D(0,0), Vect2D(0,0), 1000, 1, Vect2D(0,0)));
 
 		if(!init)
 		{
