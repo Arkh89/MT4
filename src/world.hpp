@@ -11,7 +11,7 @@ class World
 		World(void);
 		~World(void);
 		static double getTime(void); // Time ellapsed in ms
-		static double setTime(double t);
+		static double setTime(void);
 	private:
 		static double time0;
 };

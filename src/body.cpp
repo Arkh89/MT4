@@ -7,19 +7,19 @@ Vect2D Body::gN = Vect2D(0.0,9.81);
 Body::Body(void)
 { }
 
-Body::Body(Vect2D pos0, double _m, double _k)
+Body::Body(const Vect2D& pos0, double _m, double _k)
  : pos(pos0), m(_m), k(_k), tI(0.0)
 { }
 
-Body::Body(Vect2D pos0, Vect2D v0, double _m, double _k)
+Body::Body(const Vect2D& pos0, const Vect2D& v0, double _m, double _k)
  : pos(pos0), v(v0), m(_m), k(_k), tI(0.0)
 { }
 
-Body::Body(Vect2D pos0, Vect2D v0, double _m, double _k, Vect2D _R)
+Body::Body(const Vect2D& pos0, const Vect2D& v0, double _m, double _k, const Vect2D& _R)
  : pos(pos0), v(v0), m(_m), k(_k), R(_R), tI(0.0)
 { }
 
-Body::Body(Vect2D pos0, Vect2D v0, double _m, double _k, Vect2D _R, double _tI)
+Body::Body(const Vect2D& pos0, const Vect2D& v0, double _m, double _k, const Vect2D& _R, double _tI)
  : pos(pos0), v(v0), m(_m), k(_k), R(_R), tI(_tI)
 { }
 

@@ -10,10 +10,10 @@ class Body
 	public:
 
 		Body(void);
-		Body(Vect2D pos0, double _m, double _k);
-		Body(Vect2D pos0, Vect2D v0, double _m, double _k);
-		Body(Vect2D pos0, Vect2D v0, double _m, double _k, Vect2D _R);
-		Body(Vect2D pos0, Vect2D v0, double _m, double _k, Vect2D _R, double _tI);
+		Body(const Vect2D& pos0, double _m, double _k);
+		Body(const Vect2D& pos0, const Vect2D& v0, double _m, double _k);
+		Body(const Vect2D& pos0, const Vect2D& v0, double _m, double _k, const Vect2D& _R);
+		Body(const Vect2D& pos0, const Vect2D& v0, double _m, double _k, const Vect2D& _R, double _tI);
 		~Body(void);
 
 		Vect2D trajectory(double t);
