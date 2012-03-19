@@ -25,6 +25,7 @@ TValue Segment::getY2(void) const { return pt2.y; }
 
 const Vect2D& Segment::getPt1(void) const {return pt1;}
 const Vect2D& Segment::getPt2(void) const {return pt2;}
+const Vect2D& Segment::getNormalVector(void) const {return n;}
 
 TValue Segment::length(void) const
 {
@@ -45,12 +46,12 @@ TValue Segment::distSeg(const Vect2D& v) const
 }
 
 
-Vect2D Segment::getPtSeg(TValue alp)
+Vect2D Segment::getPtSeg(TValue alp) const
 {
 	return Vect2D((1-alp)*pt1 + alp*pt2);
 }
 
-Vect2D Segment::getMilieu()
+Vect2D Segment::getCenter(void) const
 {
 	return getPtSeg(0.5);
 }

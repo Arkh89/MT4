@@ -42,4 +42,14 @@
 			glColor3ub(255,0,255);
 			glVertex2f(s.getX2(), s.getY2());
 		glEnd();
+
+		Vect2D 	mid = s.getCenter(),
+			e = mid + s.getNormalVector()/5.0;
+
+		glBegin(GL_LINES);
+			glColor3ub(0,0,255);
+			glVertex2f(mid.x, mid.y);
+			glColor3ub(255,255,255);
+			glVertex2f(e.x, e.y);
+		glEnd();
 	}
