@@ -10,10 +10,12 @@ class World
 
 		World(void);
 		~World(void);
-		static double getTime(void); // Time ellapsed in ms
-		static double setTime(void);
+		static double getTime(void); // Time ellapsed in seconds
 	private:
 		static double time0;
+		#if defined(_WIN32) || defined(_WIN64)
+			static double freq;
+		#endif
 };
 
 #endif // WORLD_HPP_INCLUDED

@@ -30,8 +30,8 @@ Body::~Body(void)
 Vect2D Body::trajectory(double t)
 {
 	Vect2D Dv;
-	Dv.x = (m/k) * ((m/k)*gN.x + v.x + (R.x/k) ) * (1 - exp(-(k/m)*  (t - tI) ))  -  (m/k) * gN.x * (t - tI)  + (R.x/k) * (t - tI);
-	Dv.y = (m/k) * ((m/k)*gN.y + v.y + (R.y/k) ) * (1 - exp(-(k/m)*  (t - tI) ))  -  (m/k) * gN.y * (t - tI)  + (R.y/k) * (t - tI);
+	Dv.x = (m/k) * ((m/k)*gN.x + v.x + (R.x/k) ) * (1.0 - exp(-(k/m)*  (t - tI) ))  -  (m/k) * gN.x * (t - tI)  + (R.x/k) * (t - tI);
+	Dv.y = (m/k) * ((m/k)*gN.y + v.y + (R.y/k) ) * (1.0 - exp(-(k/m)*  (t - tI) ))  -  (m/k) * gN.y * (t - tI)  + (R.y/k) * (t - tI);
 	return Dv;
 }
 

@@ -11,7 +11,8 @@ Segment::Segment(TValue _x1, TValue _y1, TValue _x2, TValue _y2)
 	updateNormalVector();
 }
 
-Segment::Segment(const Vect2D& vect1, const Vect2D& vect2):pt1(vect1),pt2(vect2)
+Segment::Segment(const Vect2D& vect1, const Vect2D& vect2)
+ : pt1(vect1), pt2(vect2)
 {
 	updateNormalVector();
 

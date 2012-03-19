@@ -69,6 +69,8 @@
 		</ExtraCommands>
 		<Unit filename="../MT4.pro" />
 		<Unit filename="../src/MT4Header.hpp" />
+		<Unit filename="../src/body.cpp" />
+		<Unit filename="../src/body.hpp" />
 		<Unit filename="../src/game.cpp" />
 		<Unit filename="../src/game.hpp" />
 		<Unit filename="../src/main.cpp" />
@@ -78,6 +80,8 @@
 		<Unit filename="../src/segment.hpp" />
 		<Unit filename="../src/vect2D.cpp" />
 		<Unit filename="../src/vect2D.hpp" />
+		<Unit filename="../src/world.cpp" />
+		<Unit filename="../src/world.hpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />
