@@ -73,6 +73,8 @@
 		<Unit filename="../src/body.hpp" />
 		<Unit filename="../src/game.cpp" />
 		<Unit filename="../src/game.hpp" />
+		<Unit filename="../src/keyLayout.cpp" />
+		<Unit filename="../src/keyLayout.hpp" />
 		<Unit filename="../src/main.cpp" />
 		<Unit filename="../src/renderer.cpp" />
 		<Unit filename="../src/renderer.hpp" />
