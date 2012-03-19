@@ -36,8 +36,8 @@
 		swapBuffers();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
-		glTranslatef(center.x, center.y,0.0);
 		glScalef(1.0,scaleY,1.0);
+		glTranslatef(center.x, center.y,0.0);
 	}
 
 	void Renderer::draw(const Vect2D& pt)

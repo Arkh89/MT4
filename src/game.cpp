@@ -53,6 +53,11 @@
 			renderer->center.y-=0.02;
 		if(keyLayout->pressed(KeyUp))
 			renderer->center.y+=0.02;
+		if(keyLayout->pressed(KeySpace))
+		{
+			renderer->center.x = 0.0;
+			renderer->center.y = 0.0;
+		}
 
 		static std::vector<Body> bodies(1000, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
 		if(!init)
