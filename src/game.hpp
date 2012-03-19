@@ -3,9 +3,11 @@
 
 	#include <QTimer>
 	#include <QApplication>
+	#include <QWidget>
 
 	// Prototypes :
 	class Renderer;
+	class KeyLayout;
 
 	// Class :
 	class Game : public QApplication
@@ -13,8 +15,9 @@
 		Q_OBJECT
 
 		private :
-			QTimer* timer;
-			Renderer* renderer;
+			QTimer* 	timer;
+			Renderer* 	renderer;
+			KeyLayout* 	keyLayout;
 
 		public :
 			Game(int& argc, char** argv, int w, int h, int fps);

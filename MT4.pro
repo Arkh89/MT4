@@ -6,6 +6,7 @@ HEADERS      	+= 	./src/vect2D.hpp \
 			./src/renderer.hpp \
 			./src/world.hpp \
 			./src/body.hpp \
+			./src/keyLayout.hpp \
 			./src/game.hpp
 SOURCES      	+= 	./src/main.cpp \
 			./src/vect2D.cpp \
@@ -13,4 +14,5 @@ SOURCES      	+= 	./src/main.cpp \
 			./src/renderer.cpp \
 			./src/world.cpp \
 			./src/body.cpp \
+			./src/keyLayout.cpp \
 			./src/game.cpp
