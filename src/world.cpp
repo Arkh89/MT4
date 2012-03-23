@@ -12,7 +12,7 @@
 double World::time0 = 0.0;
 
 #if defined(_WIN32) || defined(_WIN64)
-	static double freq = 0.0;
+    double World::freq = 0.0;
 #endif
 
 World::World(void)
