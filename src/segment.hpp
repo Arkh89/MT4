@@ -39,6 +39,9 @@ class Segment
 		Segment& operator*=(TValue s);
 		Segment& operator/=(TValue s);
 
+		bool intersection( const Segment& s1,double& x, double& y);
+		bool intersection( const Segment& s1);
+
 
 	protected:
 

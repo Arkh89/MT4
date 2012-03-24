@@ -37,13 +37,23 @@ Vect2D Body::trajectory(double t)
 
 Vect2D Body::getCurPos(double t)
 {
-	return pos = trajectory(t);
+	return pos + trajectory(t);
 }
 
+Vect2D Body::getSp(void)
+{
+	return v;
+}
+
+Vect2D Body::getPos(void)
+{
+	return pos;
+}
 
 void Body::setNewSpeed(Vect2D s,double ti)
 {
 	tI = ti;
+	pos += trajectory(tI);
 	v = s;
 }
 

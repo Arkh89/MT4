@@ -18,6 +18,9 @@ class Body
 
 		Vect2D trajectory(double t);
 		Vect2D getCurPos(double t);
+		Vect2D getSp(void);
+		Vect2D getPos(void);
+
 		void setNewSpeed(Vect2D s,double ti);
 
 		static void setGrav(Vect2D gNew); // Pour redéfinir la constante de gravitation => Possibilité de gameplay

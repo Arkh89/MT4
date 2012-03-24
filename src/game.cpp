@@ -74,9 +74,28 @@
 		}
 		else
 		{
+
+
+
+
+			static double tPrevious = World::getTime() ;
+
 			double t = World::getTime();
-			for(unsigned int i=0; i<bodies.size(); i++)
+
+			    for(unsigned int i=0; i<bodies.size(); i++)
+			    {
+
+				Segment s(bodies[i].getPos(),bodies[i].getCurPos(t));
+				if (s.intersection(s0) | s.intersection(s1) | s.intersection(s2))
+				{
+				    Vect2D sp = bodies[i].getSp();
+				    cout << bodies[i].getSp() <<endl;
+				    bodies[i].setNewSpeed(-sp, t);
+				    cout << bodies[i].getSp() <<endl;
+				}
 				renderer->draw(bodies[i].getCurPos(t));
+			    }
+			    tPrevious = t;
 		}
 
 		renderer->draw(s0);

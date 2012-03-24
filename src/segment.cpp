@@ -120,3 +120,35 @@ Segment& Segment::operator/=(TValue s)
 }
 
 
+
+
+bool Segment::intersection( const Segment& s1,double& x, double& y)
+{
+	float denom  = ((s1.pt2.x - s1.pt1.x)*(pt2.y - pt1.y)) - ((s1.pt2.y - s1.pt1.y)*(pt2.x - pt1.x));
+
+	if (denom == 0.0) return false;
+
+	float r = ((s1.pt1.y - pt1.y)*(pt2.x - pt1.x)) - ((s1.pt1.x - pt1.x)*(pt2.y - pt1.y)) / denom;
+	float s = ((s1.pt1.y - pt1.y)*(s1.pt2.x - s1.pt1.x)) - ((s1.pt1.x - pt1.x)*(s1.pt2.y - s1.pt1.y)) / denom;
+
+	if (r < 0.0 | r > 1.0 | s < 0.0 | s > 1.0) return false;
+	else
+	{
+		x = pt1.x + s * (pt2.x - pt1.x);
+		y = pt1.y + s * (pt2.y - pt1.y);
+		return true;
+	}
+}
+
+bool Segment::intersection( const Segment& s1)
+{
+	float denom  = ((s1.pt2.x - s1.pt1.x)*(pt2.y - pt1.y)) - ((s1.pt2.y - s1.pt1.y)*(pt2.x - pt1.x));
+
+	if (denom == 0.0) return false;
+
+	float r = ((s1.pt1.y - pt1.y)*(pt2.x - pt1.x)) - ((s1.pt1.x - pt1.x)*(pt2.y - pt1.y)) / denom;
+	float s = ((s1.pt1.y - pt1.y)*(s1.pt2.x - s1.pt1.x)) - ((s1.pt1.x - pt1.x)*(s1.pt2.y - s1.pt1.y)) / denom;
+
+	if (r < 0.0 | r > 1.0 | s < 0.0 | s > 1.0) return false;
+	else return true;
+}
