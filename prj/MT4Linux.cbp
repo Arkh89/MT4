@@ -71,6 +71,10 @@
 		<Unit filename="../src/MT4Header.hpp" />
 		<Unit filename="../src/body.cpp" />
 		<Unit filename="../src/body.hpp" />
+		<Unit filename="../src/boundingBox.cpp" />
+		<Unit filename="../src/boundingBox.hpp" />
+		<Unit filename="../src/exception.cpp" />
+		<Unit filename="../src/exception.hpp" />
 		<Unit filename="../src/game.cpp" />
 		<Unit filename="../src/game.hpp" />
 		<Unit filename="../src/keyLayout.cpp" />
@@ -80,6 +84,8 @@
 		<Unit filename="../src/renderer.hpp" />
 		<Unit filename="../src/segment.cpp" />
 		<Unit filename="../src/segment.hpp" />
+		<Unit filename="../src/sprite.cpp" />
+		<Unit filename="../src/sprite.hpp" />
 		<Unit filename="../src/vect2D.cpp" />
 		<Unit filename="../src/vect2D.hpp" />
 		<Unit filename="../src/world.cpp" />
