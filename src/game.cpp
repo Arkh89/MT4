@@ -98,17 +98,20 @@
 				Segment s(bodies[i].getCurPos(tPrevious), bodies[i].getCurPos(t));
 				if (s.intersection(s0) | s.intersection(s1) | s.intersection(s2))
 				{
-					//Vect2D sp = bodies[i].getSp();
+					double s = bodies[i].getSp().norm();
 					double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
 					//cout << bodies[i].getSp() <<endl;
-					bodies[i].setNewSpeed(Vect2D(x,4.0), t);
+					bodies[i].setNewSpeed(Vect2D(x,s*0.99), t);
 					//cout << bodies[i].getSp() <<endl;
 				}
 				// Render a point :
 				//renderer->draw(bodies[i].getCurPos(t));
 
 				// Render a smurf as a particle:
-				renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(0.15,0.15));
+				if(bodies[i].getSp().x<0) // facing left
+					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(-0.15,0.15));
+				else // facing right
+					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(0.15,0.15));
 			}
 			tPrevious = t;
 		}
