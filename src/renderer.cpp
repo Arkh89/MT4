@@ -8,7 +8,9 @@
 
 		// Set OpenGL states :
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glEnable(GL_DEPTH_TEST);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	Renderer::~Renderer(void)
@@ -65,5 +67,27 @@
 			glVertex2f(mid.x, mid.y);
 			glColor3ub(255,255,255);
 			glVertex2f(e.x, e.y);
+		glEnd();
+	}
+
+	void Renderer::draw(const SpriteSet& set, unsigned int sprite, const Vect2D& center, const Vect2D& diag)
+	{
+		const SpriteRect& rect = set.getSpriteRect(sprite);
+
+		set.bind();
+		glBegin(GL_QUADS);
+			glColor3ub(255,255,255); //reset filter to white
+
+			glTexCoord2f(rect.getULC().x,rect.getULC().y);
+			glVertex2f(center.x-diag.x/2.0f, center.y+diag.y/2.0f);
+
+			glTexCoord2f(rect.getLRC().x,rect.getULC().y);
+			glVertex2f(center.x+diag.x/2.0f, center.y+diag.y/2.0f);
+
+			glTexCoord2f(rect.getLRC().x,rect.getLRC().y);
+			glVertex2f(center.x+diag.x/2.0f, center.y-diag.y/2.0f);
+
+			glTexCoord2f(rect.getULC().x,rect.getLRC().y);
+			glVertex2f(center.x-diag.x/2.0f, center.y-diag.y/2.0f);
 		glEnd();
 	}

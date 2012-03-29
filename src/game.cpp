@@ -5,10 +5,24 @@
 #include "keyLayout.hpp"
 
 	Game::Game(int& argc, char** argv,int w, int h, int fps)
-	 : renderer(NULL), keyLayout(NULL), timer(NULL), QApplication(argc,argv)
+	 : renderer(NULL), keyLayout(NULL), timer(NULL), spriteSet(NULL), QApplication(argc,argv)
 	{
 		renderer = new Renderer(w,h);
 		keyLayout = new KeyLayout(renderer);
+
+		try
+		{
+			spriteSet = new SpriteSet("./res/img/jokeysmurf.png");
+			//spriteSet = new SpriteSet("./res/img/papa.png");;
+		}
+		catch(std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+			throw e;
+		}
+		//spriteSet->declareSprite(0,0,519,600);
+		//spriteSet->declareSprite(0,0,269,187);
+		spriteSet->declareSprite(0,0,75,75);
 
 		// Create Timer :
 		timer = new QTimer;
@@ -59,7 +73,7 @@
 			renderer->center.y = 0.0;
 		}
 
-		static std::vector<Body> bodies(1000, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
+		static std::vector<Body> bodies(100, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
 		if(!init)
 		{
 			srand(time(NULL));
@@ -74,33 +88,41 @@
 		}
 		else
 		{
-
-
-
-
 			static double tPrevious = World::getTime() ;
 
 			double t = World::getTime();
 
-			    for(unsigned int i=0; i<bodies.size(); i++)
-			    {
+			for(unsigned int i=0; i<bodies.size(); i++)
+			{
 
-				Segment s(bodies[i].getPos(),bodies[i].getCurPos(t));
+				Segment s(bodies[i].getCurPos(tPrevious), bodies[i].getCurPos(t));
 				if (s.intersection(s0) | s.intersection(s1) | s.intersection(s2))
 				{
-				    Vect2D sp = bodies[i].getSp();
-				    cout << bodies[i].getSp() <<endl;
-				    bodies[i].setNewSpeed(-sp, t);
-				    cout << bodies[i].getSp() <<endl;
+					//Vect2D sp = bodies[i].getSp();
+					double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
+					//cout << bodies[i].getSp() <<endl;
+					bodies[i].setNewSpeed(Vect2D(x,4.0), t);
+					//cout << bodies[i].getSp() <<endl;
 				}
-				renderer->draw(bodies[i].getCurPos(t));
-			    }
-			    tPrevious = t;
+				// Render a point :
+				//renderer->draw(bodies[i].getCurPos(t));
+
+				// Render a smurf as a particle:
+				renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(0.15,0.15));
+			}
+			tPrevious = t;
 		}
+
+		// Unbind current smurf texture
+		SpriteSet::unbind();
 
 		renderer->draw(s0);
 		renderer->draw(s1);
 		renderer->draw(s2);
+		//renderer->draw(*spriteSet,0,Vect2D(0.0,0.0),Vect2D(1.5,1.0));
+		//renderer->draw(*spriteSet,0,Vect2D(-0.5,0.5),Vect2D(0.7,0.5));
+		//renderer->draw(*spriteSet,1,Vect2D(0.5,0.5),Vect2D(0.7,0.5));
+		//SpriteSet::unbind();
 
 		renderer->apply();
 	}

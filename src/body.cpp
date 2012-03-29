@@ -52,8 +52,8 @@ Vect2D Body::getPos(void)
 
 void Body::setNewSpeed(Vect2D s,double ti)
 {
+	pos += trajectory(ti);
 	tI = ti;
-	pos += trajectory(tI);
 	v = s;
 }
 

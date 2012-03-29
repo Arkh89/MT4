@@ -7,6 +7,7 @@
 
 	// Prototypes :
 	class Renderer;
+	class SpriteSet;
 	class KeyLayout;
 
 	// Class :
@@ -18,6 +19,8 @@
 			QTimer* 	timer;
 			Renderer* 	renderer;
 			KeyLayout* 	keyLayout;
+
+			SpriteSet*	spriteSet;
 
 		public :
 			Game(int& argc, char** argv, int w, int h, int fps);
