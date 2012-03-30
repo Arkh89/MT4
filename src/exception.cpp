@@ -84,7 +84,7 @@
 
 	/**
 	\fn const Exception& Exception::operator+(const std::exception& e)
-	\brief Add the mesages of two exceptions.
+    \brief Add the messages of two exceptions.
 	\param e The original exception.
 	\return This exception message followed by the original exception message.
 	**/

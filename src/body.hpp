@@ -23,7 +23,7 @@ class Body
 
 		void setNewSpeed(Vect2D s,double ti);
 
-		static void setGrav(Vect2D gNew); // Pour redéfinir la constante de gravitation => Possibilité de gameplay
+        static void setGrav(Vect2D gNew); // To define again the gravitation constant => extended gameplay possibilities
 
 	private:
 		Vect2D pos,v,R; // Position & Speed

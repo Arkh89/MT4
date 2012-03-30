@@ -76,7 +76,7 @@
 				keyJustReleased[static_cast<int>(a)] = false;
 			}
 			else
-				std::cerr << "Warning : Key not assiociated" << std::endl;
+                std::cerr << "Warning : Key not associated" << std::endl;
 		}
 	}
 
@@ -95,6 +95,6 @@
 				keyJustReleased[static_cast<int>(a)] = true;
 			}
 			else
-				std::cerr << "Warning : Key not assiociated" << std::endl;
+                std::cerr << "Warning : Key not associated" << std::endl;
 		}
 	}
