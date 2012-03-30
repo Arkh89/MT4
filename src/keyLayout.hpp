@@ -12,6 +12,9 @@
 		KeyRight,
 		KeySpace,
 		KeyEscape,
+		KeyReturn,
+		KeyPlus,
+		KeyMinus,
 		// Add new keys before this line
 		NumKey,
 		NoAction

@@ -17,6 +17,9 @@
 		keyAssociation[static_cast<int>(KeyRight)]	= Qt::Key_Right;
 		keyAssociation[static_cast<int>(KeySpace)]	= Qt::Key_Space;
 		keyAssociation[static_cast<int>(KeyEscape)]	= Qt::Key_Escape;
+		keyAssociation[static_cast<int>(KeyReturn)]	= Qt::Key_Return;
+		keyAssociation[static_cast<int>(KeyPlus)]	= Qt::Key_Plus;
+		keyAssociation[static_cast<int>(KeyMinus)]	= Qt::Key_Minus;
 	}
 
 	KeyLayout::~KeyLayout(void)

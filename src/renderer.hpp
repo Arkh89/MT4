@@ -19,6 +19,7 @@
 
 		public :
 			Vect2D center;
+			float scale;
 
 			Renderer(int w, int h);
 			~Renderer(void);

@@ -1,7 +1,7 @@
 #include "renderer.hpp"
 
 	Renderer::Renderer(int w, int h)
-	 : QGLWidget(), center(0.0,0.0)
+	 : QGLWidget(), center(0.0,0.0), scale(1.0)
 	{
 		resize(w,h);
 		show();
@@ -38,7 +38,7 @@
 		swapBuffers();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
-		glScalef(1.0,scaleY,1.0);
+		glScalef(scale,scaleY*scale,1.0);
 		glTranslatef(center.x, center.y,0.0);
 	}
 

@@ -51,7 +51,8 @@
 	void Game::update(void)
 	{
 		static World w;
-		static bool init = false;
+		static bool init = false, freeze = false;
+		static double deltaFreeze = 0.0, lastStartFreeze = World::getTime();
 		static Segment 	s0(-0.7,-0.7,0.7,-0.7),
 				s1(-1.0,0.0,-0.7,-0.7),
 				s2(0.7,-0.7,1.0,0.0);
@@ -60,17 +61,35 @@
 		if(keyLayout->justReleased(KeyEscape))
 			quit();
 		if(keyLayout->pressed(KeyRight))
-			renderer->center.x+=0.02;
+			renderer->center.x+=0.02/renderer->scale;
 		if(keyLayout->pressed(KeyLeft))
-			renderer->center.x-=0.02;
+			renderer->center.x-=0.02/renderer->scale;
 		if(keyLayout->pressed(KeyDown))
-			renderer->center.y-=0.02;
+			renderer->center.y-=0.02/renderer->scale;
 		if(keyLayout->pressed(KeyUp))
-			renderer->center.y+=0.02;
+			renderer->center.y+=0.02/renderer->scale;
+		if(keyLayout->pressed(KeyPlus))
+			renderer->scale*=1.05;
+		if(keyLayout->pressed(KeyMinus))
+			renderer->scale/=1.05;
 		if(keyLayout->pressed(KeySpace))
 		{
 			renderer->center.x = 0.0;
 			renderer->center.y = 0.0;
+			renderer->scale	   = 1.0;
+		}
+		if(keyLayout->justPressed(KeyReturn))
+		{
+			if(!freeze)
+			{
+				lastStartFreeze = World::getTime();
+				freeze = true;
+			}
+			else
+			{
+				deltaFreeze += World::getTime() - lastStartFreeze;
+				freeze = false;
+			}
 		}
 
 		static std::vector<Body> bodies(100, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
@@ -90,30 +109,41 @@
 		{
 			static double tPrevious = World::getTime() ;
 
-			double t = World::getTime();
+			double t = World::getTime() - deltaFreeze;
 
 			for(unsigned int i=0; i<bodies.size(); i++)
 			{
-
-				Segment s(bodies[i].getCurPos(tPrevious), bodies[i].getCurPos(t));
-				if (s.intersection(s0) | s.intersection(s1) | s.intersection(s2))
+				if(!freeze)
 				{
-					double s = bodies[i].getSp().norm();
-					double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
-					//cout << bodies[i].getSp() <<endl;
-					bodies[i].setNewSpeed(Vect2D(x,s*0.99), t);
-					//cout << bodies[i].getSp() <<endl;
-				}
-				// Render a point :
-				//renderer->draw(bodies[i].getCurPos(t));
+					Segment s(bodies[i].getCurPos(tPrevious), bodies[i].getCurPos(t));
+					if (s.intersection(s0) | s.intersection(s1) | s.intersection(s2))
+					{
+						double s = bodies[i].getSp().norm();
+						double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
+						//cout << bodies[i].getSp() <<endl;
+						bodies[i].setNewSpeed(Vect2D(x,s*0.99), t);
+						//cout << bodies[i].getSp() <<endl;
+					}
+					// Render a point :
+					//renderer->draw(bodies[i].getCurPos(t));
 
-				// Render a smurf as a particle:
-				if(bodies[i].getSp().x<0) // facing left
-					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(-0.15,0.15));
-				else // facing right
-					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(0.15,0.15));
+					// Render a smurf as a particle:
+					if(bodies[i].getSp().x<0) // facing left
+						renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(-0.15,0.15));
+					else // facing right
+						renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(0.15,0.15));
+				}
+				else
+				{
+					if(bodies[i].getSp().x<0) // facing left
+						renderer->draw(*spriteSet,0,bodies[i].getCurPos(tPrevious),Vect2D(-0.15,0.15));
+					else // facing right
+						renderer->draw(*spriteSet,0,bodies[i].getCurPos(tPrevious),Vect2D(0.15,0.15));
+				}
 			}
-			tPrevious = t;
+
+			if(!freeze)
+				tPrevious = t;
 		}
 
 		// Unbind current smurf texture
