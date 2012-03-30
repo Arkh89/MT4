@@ -77,6 +77,16 @@
 		glDeleteTextures( 1, &texID);
 	}
 
+	unsigned int SpriteSet::getWidth(void) const
+	{
+		return w;
+	}
+
+	unsigned int SpriteSet::getHeight(void) const
+	{
+		return h;
+	}
+
 	unsigned int SpriteSet::declareSprite(unsigned int xULC, unsigned int yULC, unsigned int xLRC, unsigned int yLRC)
 	{
 		Vect2D 	a(static_cast<float>(xULC)/static_cast<float>(w),static_cast<float>(yULC)/static_cast<float>(h)),
@@ -87,6 +97,27 @@
 		sprites.push_back(SpriteRect(a,b));
 
 		return sprites.size()-1;
+	}
+
+	std::vector<unsigned int> SpriteSet::declareSpriteSerie(unsigned int xSize, unsigned int ySize, unsigned int xOffset, unsigned int yOffset, unsigned int xStride, unsigned int yStride)
+	{
+		std::vector<unsigned int> indexes;
+
+		unsigned int 	nW = (w-xOffset)/(xSize+xStride),
+				nH = (h-yOffset)/(ySize+yStride);
+
+		for(unsigned int i=0; i<nH; i++)
+			for(unsigned int j=0; j<nW; j++)
+			{
+				float 	xA = static_cast<float>(xOffset+j*(xSize+xStride))/static_cast<float>(w),
+					yA = static_cast<float>(yOffset+i*(ySize+yStride))/static_cast<float>(h),
+					xB = static_cast<float>(xOffset+(j+1)*(xSize+xStride))/static_cast<float>(w),
+					yB = static_cast<float>(yOffset+(i+1)*(ySize+yStride))/static_cast<float>(h);
+				sprites.push_back(SpriteRect(Vect2D(xA,yA),Vect2D(xB,yB)));
+				indexes.push_back(sprites.size()-1);
+			}
+
+		return indexes;
 	}
 
 	unsigned int SpriteSet::getNumImages(void) const

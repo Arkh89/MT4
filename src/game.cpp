@@ -13,7 +13,7 @@
 		try
 		{
 			spriteSet = new SpriteSet("./res/img/jokeysmurf.png");
-			//spriteSet = new SpriteSet("./res/img/papa.png");;
+			//spriteSet = new SpriteSet("./res/img/papa.png");
 		}
 		catch(std::exception& e)
 		{

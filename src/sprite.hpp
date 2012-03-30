@@ -27,7 +27,11 @@
 			SpriteSet(const std::string& filename);
 			~SpriteSet(void);
 
+			unsigned int getWidth(void) const;
+			unsigned int getHeight(void) const;
+
 			unsigned int declareSprite(unsigned int xULC, unsigned int yULC, unsigned int xLRC, unsigned int yLRC);
+			std::vector<unsigned int> declareSpriteSerie(unsigned int xSize, unsigned int ySize, unsigned int xOffset=0, unsigned int yOffset=0, unsigned int xStride=0, unsigned int yStride=0);
 			unsigned int getNumImages(void) const;
 
 			const SpriteRect& getSpriteRect(unsigned int i) const;
