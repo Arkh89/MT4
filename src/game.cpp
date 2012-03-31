@@ -51,13 +51,13 @@
 	void Game::update(void)
 	{
 		static World w;
-		static bool init = false, freeze = false;
-		static double deltaFreeze = 0.0, lastStartFreeze = World::getTime();
+		static bool init = false;
 		static Segment 	s0(-0.7,-0.7,0.7,-0.7),
 				s1(-1.0,0.0,-0.7,-0.7),
 				s2(0.7,-0.7,1.0,0.0);
+		static std::vector<Body> bodies(100, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
 
-		// Temp :
+		// Temporary commands :
 		if(keyLayout->justReleased(KeyEscape))
 			quit();
 		if(keyLayout->pressed(KeyRight))
@@ -79,20 +79,9 @@
 			renderer->scale	   = 1.0;
 		}
 		if(keyLayout->justPressed(KeyReturn))
-		{
-			if(!freeze)
-			{
-				lastStartFreeze = World::getTime();
-				freeze = true;
-			}
-			else
-			{
-				deltaFreeze += World::getTime() - lastStartFreeze;
-				freeze = false;
-			}
-		}
+			World::switchFreeze();
 
-		static std::vector<Body> bodies(100, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
+
 		if(!init)
 		{
 			srand(time(NULL));
@@ -109,41 +98,30 @@
 		{
 			static double tPrevious = World::getTime() ;
 
-			double t = World::getTime() - deltaFreeze;
+			double t = World::getTime();
 
 			for(unsigned int i=0; i<bodies.size(); i++)
 			{
-				if(!freeze)
-				{
-					Segment s(bodies[i].getCurPos(tPrevious), bodies[i].getCurPos(t));
-					if (s.intersection(s0) | s.intersection(s1) | s.intersection(s2))
-					{
-						double s = bodies[i].getSp().norm();
-						double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
-						//cout << bodies[i].getSp() <<endl;
-						bodies[i].setNewSpeed(Vect2D(x,s*0.99), t);
-						//cout << bodies[i].getSp() <<endl;
-					}
-					// Render a point :
-					//renderer->draw(bodies[i].getCurPos(t));
+				Segment s(bodies[i].getCurPos(tPrevious), bodies[i].getCurPos(t));
 
-					// Render a smurf as a particle:
-					if(bodies[i].getSp().x<0) // facing left
-						renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(-0.15,0.15));
-					else // facing right
-						renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(0.15,0.15));
-				}
-				else
+				if( s.length()>0 & (s.intersection(s0) | s.intersection(s1) | s.intersection(s2)))
 				{
-					if(bodies[i].getSp().x<0) // facing left
-						renderer->draw(*spriteSet,0,bodies[i].getCurPos(tPrevious),Vect2D(-0.15,0.15));
-					else // facing right
-						renderer->draw(*spriteSet,0,bodies[i].getCurPos(tPrevious),Vect2D(0.15,0.15));
+					double s = bodies[i].getSp().norm();
+					double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
+					//cout << bodies[i].getSp() <<endl;
+					bodies[i].setNewSpeed(Vect2D(x,s*0.99), t);
+					//cout << bodies[i].getSp() <<endl;
 				}
+				// Render a point :
+				//renderer->draw(bodies[i].getCurPos(t));
+
+				// Render a smurf as a particle:
+				if(bodies[i].getSp().x<0) // facing left
+					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(-0.15,0.15));
+				else // facing right
+					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(0.15,0.15));
 			}
-
-			if(!freeze)
-				tPrevious = t;
+			tPrevious = t;
 		}
 
 		// Unbind current smurf texture
