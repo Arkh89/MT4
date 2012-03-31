@@ -35,7 +35,7 @@
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,     GL_REPEAT );
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_REPEAT );
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,     GL_CLAMP );
 
 		w = img.width();
 		h = img.height();
@@ -48,13 +48,20 @@
 			for(int j=0; j<w; j++)
 			{
 				QRgb col 	= img.pixel(j,i);
-				temp[t+0] 	= static_cast<unsigned char>( qRed( col ) );
-				temp[t+1] 	= static_cast<unsigned char>( qGreen( col ) );
-				temp[t+2] 	= static_cast<unsigned char>( qBlue( col ) );
-				if(temp[t+0]==rTrans && temp[t+1]==gTrans && temp[t+2]==bTrans)
-					temp[t+3] = 0;
+				temp[t+0] 	= static_cast<unsigned char>( qRed(col) );
+				temp[t+1] 	= static_cast<unsigned char>( qGreen(col) );
+				temp[t+2] 	= static_cast<unsigned char>( qBlue(col) );
+
+				// transparency
+				if(qAlpha(col)>0)
+					temp[t+3] = static_cast<unsigned char>( qAlpha(col) );
 				else
-					temp[t+3] = 255;
+				{
+					if(temp[t+0]==rTrans && temp[t+1]==gTrans && temp[t+2]==bTrans)
+						temp[t+3] = 0;
+					else
+						temp[t+3] = 255;
+				}
 
 				//temp[t+0]	= (i%2)*(j%2)*255;
 				//temp[t+1]	= (1-i%2)*(j%2)*255;
@@ -85,6 +92,15 @@
 	unsigned int SpriteSet::getHeight(void) const
 	{
 		return h;
+	}
+
+	unsigned int SpriteSet::declareUniqueSprite(void)
+	{
+		if(sprites.size()>0)
+			throw Exception("SpriteSet::declareUniqueSprite - At least one subsprite has already been declared.",__FILE__, __LINE__);
+
+		sprites.push_back(SpriteRect(Vect2D(0.0,0.0), Vect2D(1.0,1.0)));
+		return 0;
 	}
 
 	unsigned int SpriteSet::declareSprite(unsigned int xULC, unsigned int yULC, unsigned int xLRC, unsigned int yLRC)

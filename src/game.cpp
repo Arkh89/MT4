@@ -13,6 +13,9 @@
 		try
 		{
 			spriteSet = new SpriteSet("./res/img/jokeysmurf.png");
+			renderer->setLayer(0,"./res/img/sky.png",0.1);
+			renderer->setLayer(1,"./res/img/vegetation.png",0.3);
+			renderer->setLayer(2,"./res/img/ground.png",0.5);
 			//spriteSet = new SpriteSet("./res/img/papa.png");
 		}
 		catch(std::exception& e)
@@ -98,6 +101,9 @@
 		{
 			static double tPrevious = World::getTime() ;
 
+			renderer->begin();
+			renderer->drawBackground();
+
 			double t = World::getTime();
 
 			for(unsigned int i=0; i<bodies.size(); i++)
@@ -135,5 +141,5 @@
 		//renderer->draw(*spriteSet,1,Vect2D(0.5,0.5),Vect2D(0.7,0.5));
 		//SpriteSet::unbind();
 
-		renderer->apply();
+		renderer->end();
 	}

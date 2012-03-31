@@ -13,6 +13,10 @@
 		private :
 			float scaleY;
 
+			static const unsigned int NLayer = 3;
+			SpriteSet* layer[NLayer];
+			float coeffLayer[NLayer];
+
 		protected :
 			void keyPressEvent(QKeyEvent* event);
 			void keyReleaseEvent(QKeyEvent* event);
@@ -24,14 +28,20 @@
 			Renderer(int w, int h);
 			~Renderer(void);
 
+			// init methods :
+			void removeLayer(unsigned int i);
+			void setLayer(unsigned int i, const std::string&, float coeff);
+
 			// Event Handling :
 			void resizeGL(int w, int h);
-			void apply(void);
+			void begin(void);
+			void end(void);
 
 			// Primitive drawing :
 			void draw(const Vect2D& pt);
 			void draw(const Segment& s);
-			void draw(const SpriteSet& set, unsigned int sprite, const Vect2D& center, const Vect2D& diag);
+			void draw(const SpriteSet& set, unsigned int sprite, const Vect2D& center, const Vect2D& diag, const Vect2D& loop = Vect2D(0.0,0.0));
+			void drawBackground(void);
 
 		signals :
 			void keyPress(QKeyEvent* event);

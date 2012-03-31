@@ -1,8 +1,12 @@
 #include "renderer.hpp"
+#include "exception.hpp"
 
 	Renderer::Renderer(int w, int h)
 	 : QGLWidget(), center(0.0,0.0), scale(1.0)
 	{
+		memset(layer,0,NLayer*sizeof(void*));
+		memset(coeffLayer,0,NLayer*sizeof(float));
+
 		resize(w,h);
 		show();
 
@@ -14,7 +18,10 @@
 	}
 
 	Renderer::~Renderer(void)
-	{ }
+	{
+		for(unsigned int i=0; i<NLayer; i++)
+			removeLayer(i);
+	}
 
 	void Renderer::keyPressEvent(QKeyEvent* event)
 	{
@@ -26,6 +33,30 @@
 		emit keyRelease(event); //Syntaxe Qt
 	}
 
+	void Renderer::removeLayer(unsigned int i)
+	{
+		if(i>=NLayer)
+			throw Exception("Renderer::setLayer - Index out of range.",__FILE__,__LINE__);
+
+		delete layer[i];
+		layer[i] = NULL;
+	}
+
+	void Renderer::setLayer(unsigned int i, const std::string& filename, float coeff)
+	{
+		if(i>=NLayer)
+			throw Exception("Renderer::setLayer - Index out of range.",__FILE__,__LINE__);
+
+		if(layer[i]!=NULL)
+			delete layer[i];
+
+		layer[i] = new SpriteSet(filename);
+
+		layer[i]->declareUniqueSprite();
+
+		coeffLayer[i] = coeff;
+	}
+
 	void Renderer::resizeGL(int w, int h)
 	{
 		std::cout << "resized to " << w << 'x' << h << std::endl;
@@ -33,13 +64,17 @@
 		scaleY = static_cast<float>(w)/static_cast<float>(h);
 	}
 
-	void Renderer::apply(void)
+	void Renderer::begin(void)
 	{
-		swapBuffers();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		glScalef(scale,scaleY*scale,1.0);
 		glTranslatef(center.x, center.y,0.0);
+	}
+
+	void Renderer::end(void)
+	{
+		swapBuffers();
 	}
 
 	void Renderer::draw(const Vect2D& pt)
@@ -70,7 +105,7 @@
 		glEnd();
 	}
 
-	void Renderer::draw(const SpriteSet& set, unsigned int sprite, const Vect2D& center, const Vect2D& diag)
+	void Renderer::draw(const SpriteSet& set, unsigned int sprite, const Vect2D& center, const Vect2D& diag, const Vect2D& loop)
 	{
 		const SpriteRect& rect = set.getSpriteRect(sprite);
 
@@ -78,16 +113,26 @@
 		glBegin(GL_QUADS);
 			glColor3ub(255,255,255); //reset filter to white
 
-			glTexCoord2f(rect.getULC().x,rect.getULC().y);
+			glTexCoord2f(rect.getULC().x+loop.x,rect.getULC().y+loop.y);
 			glVertex2f(center.x-diag.x/2.0f, center.y+diag.y/2.0f);
 
-			glTexCoord2f(rect.getLRC().x,rect.getULC().y);
+			glTexCoord2f(rect.getLRC().x+loop.x,rect.getULC().y+loop.y);
 			glVertex2f(center.x+diag.x/2.0f, center.y+diag.y/2.0f);
 
-			glTexCoord2f(rect.getLRC().x,rect.getLRC().y);
+			glTexCoord2f(rect.getLRC().x+loop.x,rect.getLRC().y+loop.y);
 			glVertex2f(center.x+diag.x/2.0f, center.y-diag.y/2.0f);
 
-			glTexCoord2f(rect.getULC().x,rect.getLRC().y);
+			glTexCoord2f(rect.getULC().x+loop.x,rect.getLRC().y+loop.y);
 			glVertex2f(center.x-diag.x/2.0f, center.y-diag.y/2.0f);
 		glEnd();
 	}
+
+	void Renderer::drawBackground(void)
+	{
+		for(unsigned int i=0; i<NLayer; i++)
+		{
+			if(layer[i]!=NULL)
+				draw(*layer[i], 0, -center, Vect2D(2.0,2.0), center*coeffLayer[i]);
+		}
+	}
+
