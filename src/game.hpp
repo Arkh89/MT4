@@ -9,6 +9,7 @@
 	class Renderer;
 	class SpriteSet;
 	class KeyLayout;
+	class SoundEngine;
 
 	// Class :
 	class Game : public QApplication
@@ -19,9 +20,9 @@
 			QTimer* 	timer;
 			Renderer* 	renderer;
 			KeyLayout* 	keyLayout;
+			SoundEngine*	soundEngine;
 
 			SpriteSet*	spriteSet;
-
 		public :
 			Game(int& argc, char** argv, int w, int h, int fps);
 			~Game(void);

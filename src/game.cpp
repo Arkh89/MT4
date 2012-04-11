@@ -3,15 +3,24 @@
 #include "body.hpp"
 #include "world.hpp"
 #include "keyLayout.hpp"
+#include "soundEngine.hpp"
 
 	Game::Game(int& argc, char** argv,int w, int h, int fps)
 	 : renderer(NULL), keyLayout(NULL), timer(NULL), spriteSet(NULL), QApplication(argc,argv)
 	{
-		renderer = new Renderer(w,h);
-		keyLayout = new KeyLayout(renderer);
+		setApplicationName("MT4");
+
+		renderer 	= new Renderer(w,h);
+		keyLayout 	= new KeyLayout(renderer);
+		soundEngine 	= new SoundEngine();
 
 		try
 		{
+			unsigned int s = 0;
+			s = soundEngine->loadSound("res/audio/jump.wav");
+			s = soundEngine->loadSound("res/audio/intro.wav");
+			soundEngine->setBackgroundSound(s);
+
 			spriteSet = new SpriteSet("./res/img/jokeysmurf.png");
 			renderer->setLayer(0,"./res/img/sky.png",0.1);
 			renderer->setLayer(1,"./res/img/vegetation.png",0.3);
@@ -46,6 +55,7 @@
 	{
 		disconnect(renderer, SIGNAL(keyPress(QKeyEvent*)), keyLayout, SLOT(keyPress(QKeyEvent*)));
 		disconnect(renderer, SIGNAL(keyRelease(QKeyEvent*)), keyLayout, SLOT(keyRelease(QKeyEvent*)));
+		delete soundEngine;
 		delete keyLayout;
 		delete renderer;
 		delete timer;
@@ -58,7 +68,7 @@
 		static Segment 	s0(-0.7,-0.7,0.7,-0.7),
 				s1(-1.0,0.0,-0.7,-0.7),
 				s2(0.7,-0.7,1.0,0.0);
-		static std::vector<Body> bodies(100, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
+		static std::vector<Body> bodies(5, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
 
 		// Temporary commands :
 		if(keyLayout->justReleased(KeyEscape))
@@ -92,8 +102,8 @@
 			double t = World::getTime();
 			for(unsigned int i=0; i<bodies.size(); i++)
 			{
-				double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0,
-				y = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*10.0;
+				double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*0.5,
+				y = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*5.0+2.0;
 				bodies[i].setNewSpeed(Vect2D(x,y), t);
 			}
 		}
@@ -116,6 +126,7 @@
 					double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
 					//cout << bodies[i].getSp() <<endl;
 					bodies[i].setNewSpeed(Vect2D(x,s*0.99), t);
+					soundEngine->playSound(0);
 					//cout << bodies[i].getSp() <<endl;
 				}
 				// Render a point :

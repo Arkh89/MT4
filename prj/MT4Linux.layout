@@ -16,11 +16,11 @@
 	<File name="../src/exception.hpp" open="0" top="0" tabpos="0">
 		<Cursor position="1454" topLine="0" />
 	</File>
-	<File name="../src/game.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="1651" topLine="72" />
+	<File name="../src/game.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="507" topLine="3" />
 	</File>
-	<File name="../src/game.hpp" open="1" top="0" tabpos="5">
-		<Cursor position="62" topLine="9" />
+	<File name="../src/game.hpp" open="0" top="0" tabpos="5">
+		<Cursor position="138" topLine="0" />
 	</File>
 	<File name="../src/keyLayout.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="774" topLine="0" />
@@ -31,11 +31,11 @@
 	<File name="../src/main.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="117" topLine="0" />
 	</File>
-	<File name="../src/renderer.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="878" topLine="30" />
+	<File name="../src/renderer.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="2933" topLine="104" />
 	</File>
-	<File name="../src/renderer.hpp" open="1" top="0" tabpos="1">
-		<Cursor position="370" topLine="4" />
+	<File name="../src/renderer.hpp" open="0" top="0" tabpos="1">
+		<Cursor position="714" topLine="15" />
 	</File>
 	<File name="../src/segment.cpp" open="0" top="0" tabpos="6">
 		<Cursor position="1112" topLine="86" />
@@ -44,10 +44,10 @@
 		<Cursor position="850" topLine="14" />
 	</File>
 	<File name="../src/sprite.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="3283" topLine="102" />
+		<Cursor position="989" topLine="34" />
 	</File>
-	<File name="../src/sprite.hpp" open="1" top="0" tabpos="3">
-		<Cursor position="830" topLine="6" />
+	<File name="../src/sprite.hpp" open="0" top="0" tabpos="3">
+		<Cursor position="592" topLine="6" />
 	</File>
 	<File name="../src/vect2D.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="208" topLine="15" />
@@ -55,10 +55,10 @@
 	<File name="../src/vect2D.hpp" open="0" top="0" tabpos="0">
 		<Cursor position="1199" topLine="8" />
 	</File>
-	<File name="../src/world.cpp" open="1" top="1" tabpos="6">
-		<Cursor position="1512" topLine="61" />
+	<File name="../src/world.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="1512" topLine="60" />
 	</File>
-	<File name="../src/world.hpp" open="1" top="0" tabpos="7">
-		<Cursor position="203" topLine="5" />
+	<File name="../src/world.hpp" open="0" top="0" tabpos="7">
+		<Cursor position="203" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
