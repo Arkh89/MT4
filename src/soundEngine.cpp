@@ -64,7 +64,6 @@
 			throw Exception("SoundEngine::SoundEngine - Unable to use OpenAL context.", __FILE__, __LINE__);
 
 		alGenSources(1, &backgroundSource);
-		alGenSources(1, &effect);
 
 		timer = new QTimer;
 		timer->setInterval(1000.0);
@@ -79,8 +78,14 @@
 		alSourcei(backgroundSource, AL_BUFFER, 0);
 		alDeleteSources(1, &backgroundSource);
 
-		alSourcei(effect, AL_BUFFER, 0);
-		alDeleteSources(1, &effect);
+
+
+		for(std::vector<ALuint>::iterator it = sources.begin(); it!=sources.end(); it++)
+		{
+			alSourcei(*it, AL_BUFFER, 0);
+			alDeleteSources(1, &(*it));
+		}
+		sources.clear();
 
 		for(std::vector<Sound*>::iterator it=sounds.begin(); it!=sounds.end(); it++)
 			delete *it;
@@ -103,20 +108,30 @@
 		return sounds.size()-1;
 	}
 
+	int SoundEngine::getSource(void)
+	{
+		ALuint s;
+		alGenSources(1, &s);
+		sources.push_back(s);
+		return sources.size()-1;
+	}
+
 	void SoundEngine::setBackgroundSound(int s)
 	{
 		sBackground = s;
 	}
 
-	void SoundEngine::playSound(int s)
+	void SoundEngine::playSound(int source, int sound)
 	{
+		ALuint s = sources[source];
 		ALint status;
-		alGetSourcei(effect, AL_SOURCE_STATE, &status);
 
-		if(status != AL_PLAYING)
+		alGetSourcei(s, AL_SOURCE_STATE, &status);
+
+		if(status!=AL_PLAYING)
 		{
-			alSourcei(effect, AL_BUFFER, sounds[s]->getBuffer());
-			alSourcePlay(effect);
+			alSourcei(s, AL_BUFFER, sounds[sound]->getBuffer());
+			alSourcePlay(s);
 		}
 	}
 
@@ -125,7 +140,7 @@
 		ALint status;
 		alGetSourcei(backgroundSource, AL_SOURCE_STATE, &status);
 
-		if(status != AL_PLAYING && sBackground>=0)
+		if(status!=AL_PLAYING && sBackground>=0)
 		{
 			alSourcei(backgroundSource, AL_BUFFER, sounds[sBackground]->getBuffer());
 			alSourcePlay(backgroundSource);

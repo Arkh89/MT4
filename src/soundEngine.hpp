@@ -31,9 +31,10 @@
 			QTimer* 	timer;
 			ALCdevice* 	device;
 			ALCcontext* 	context;
-			ALuint 		backgroundSource, effect;
+			ALuint 		backgroundSource;
 
 			std::vector<Sound*> sounds;
+			std::vector<ALuint> sources;
 
 			int sBackground;
 
@@ -41,9 +42,10 @@
 			SoundEngine(void);
 			~SoundEngine(void);
 
+			int getSource(void);
 			int loadSound(const std::string& filename);
 			void setBackgroundSound(int s);
-			void playSound(int s);
+			void playSound(int source, int sound);
 
 			void silence(void);
 

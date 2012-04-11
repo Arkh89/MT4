@@ -63,12 +63,14 @@
 
 	void Game::update(void)
 	{
+		const unsigned int NBody = 5;
 		static World w;
 		static bool init = false;
 		static Segment 	s0(-0.7,-0.7,0.7,-0.7),
 				s1(-1.0,0.0,-0.7,-0.7),
 				s2(0.7,-0.7,1.0,0.0);
-		static std::vector<Body> bodies(5, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
+		static std::vector<Body> bodies(NBody, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
+		static std::vector<int> sndSources(NBody, 0);
 
 		// Temporary commands :
 		if(keyLayout->justReleased(KeyEscape))
@@ -105,6 +107,7 @@
 				double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*0.5,
 				y = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*5.0+2.0;
 				bodies[i].setNewSpeed(Vect2D(x,y), t);
+				sndSources[i] = soundEngine->getSource();
 			}
 		}
 		else
@@ -126,7 +129,7 @@
 					double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
 					//cout << bodies[i].getSp() <<endl;
 					bodies[i].setNewSpeed(Vect2D(x,s*0.99), t);
-					soundEngine->playSound(0);
+					soundEngine->playSound(sndSources[i], 0); //'jump'
 					//cout << bodies[i].getSp() <<endl;
 				}
 				// Render a point :

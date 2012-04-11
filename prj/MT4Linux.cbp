@@ -84,6 +84,8 @@
 		<Unit filename="../src/renderer.hpp" />
 		<Unit filename="../src/segment.cpp" />
 		<Unit filename="../src/segment.hpp" />
+		<Unit filename="../src/soundEngine.cpp" />
+		<Unit filename="../src/soundEngine.hpp" />
 		<Unit filename="../src/sprite.cpp" />
 		<Unit filename="../src/sprite.hpp" />
 		<Unit filename="../src/vect2D.cpp" />
