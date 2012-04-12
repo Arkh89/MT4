@@ -52,12 +52,7 @@
 			QTimer* 	timer;
 			ALCdevice* 	device;
 			ALCcontext* 	context;
-			//ALuint 		backgroundSource;
 
-			//std::vector<Sound*> sounds;
-			//std::vector<ALuint> sources;
-
-			//int sBackground;
 			SoundSource* background;
 			Sound* bSound;
 
@@ -65,12 +60,9 @@
 			SoundEngine(void);
 			~SoundEngine(void);
 
-			//int getSource(void);
-			//int loadSound(const std::string& filename);
 			void setBackgroundSound(const std::string& filename);
-			//void playSound(int source, int sound);
+			void setListenerPosition(const Vect2D& p);
 
-			//void silence(void);
 			std::string getLastError(void);
 
 		private slots:

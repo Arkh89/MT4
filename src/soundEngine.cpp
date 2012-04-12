@@ -144,6 +144,12 @@
 		checkLoop();
 	}
 
+	void SoundEngine::setListenerPosition(const Vect2D& p)
+	{
+		background->setPosition(p);
+		alListener3f(AL_POSITION,p.x,p.y,0.0);
+	}
+
 	void SoundEngine::checkLoop(void)
 	{
 		if(!background->isPlaying() && bSound!=NULL)

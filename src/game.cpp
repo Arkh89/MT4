@@ -18,6 +18,7 @@
 		{
 			unsigned int s = 0;
 			jump = new Sound("res/audio/jump.wav");
+			coin = new Sound("res/audio/coin.wav");
 			soundEngine->setBackgroundSound("res/audio/intro.wav");
 
 			spriteSet = new SpriteSet("./res/img/jokeysmurf.png");
@@ -69,6 +70,7 @@
 				s2(0.7,-0.7,1.0,0.0);
 		static std::vector<Body> bodies(NBody, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
 		static std::vector<SoundSource*> sndSources(NBody,NULL);
+		static std::vector<float> scale(NBody,0.15);
 
 		// Temporary commands :
 		if(keyLayout->justReleased(KeyEscape))
@@ -115,6 +117,8 @@
 			renderer->begin();
 			renderer->drawBackground();
 
+			soundEngine->setListenerPosition(-renderer->center);
+
 			double t = World::getTime();
 
 			for(unsigned int i=0; i<bodies.size(); i++)
@@ -133,14 +137,28 @@
 					sndSources[i]->play(*jump);
 					//cout << bodies[i].getSp() <<endl;
 				}
-				// Render a point :
-				//renderer->draw(bodies[i].getCurPos(t));
+
+				if((abs(s.getY1()-s.getY2())<1e-3) && pos.y>0.2)
+				{
+					sndSources[i]->setPosition(pos);
+					sndSources[i]->play(*coin);
+
+					scale[i] = 0.3;
+				}
 
 				// Render a smurf as a particle:
 				if(bodies[i].getSp().x<0) // facing left
-					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(-0.15,0.15));
+					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(-scale[i],scale[i]));
 				else // facing right
-					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(0.15,0.15));
+					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(scale[i],scale[i]));
+
+				if(scale[i]>0.15)
+					scale[i] = scale[i]/1.01;
+				else
+					scale[i] = 0.15;
+
+				// Render a point :
+				//renderer->draw(bodies[i].getCurPos(t));
 			}
 			tPrevious = t;
 		}

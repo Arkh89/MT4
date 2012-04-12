@@ -24,7 +24,7 @@
 			SoundEngine*	soundEngine;
 
 			SpriteSet*	spriteSet;
-			Sound*		jump;
+			Sound		*jump, *coin;
 
 		public :
 			Game(int& argc, char** argv, int w, int h, int fps);
