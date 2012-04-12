@@ -29,10 +29,8 @@
 
 		alGenBuffers(1, &buffer);
 
-		// Remplissage avec les échantillons lus
 		alBufferData(buffer, format, &samples[0], nbSamples * sizeof(ALushort), sampleRate);
 
-		// Vérification des erreurs
 		if(alGetError()!=AL_NO_ERROR)
 			throw Exception("Sound::Sound - Unable to read file : " + filename + ". An OpenAL error occured.", __FILE__, __LINE__);
 
@@ -49,8 +47,61 @@
 		return buffer;
 	}
 
+	SoundSource::SoundSource(void)
+	 : pos()
+	{
+		alGenSources(1, &s);
+		alSourcei(s, AL_BUFFER, 0);
+	}
+
+	SoundSource::SoundSource(const Vect2D& p)
+	 : pos(p)
+	{
+		alGenSources(1, &s);
+		alSourcei(s, AL_BUFFER, 0);
+		setPosition(p);
+	}
+
+	SoundSource::~SoundSource(void)
+	{
+		stop();
+		alDeleteSources(1, &s);
+	}
+
+	bool SoundSource::isPlaying(void)
+	{
+		ALint status;
+		alGetSourcei(s, AL_SOURCE_STATE, &status);
+		return status==AL_PLAYING;
+	}
+
+	void SoundSource::setPosition(const Vect2D& p)
+	{
+		pos = p;
+		alSource3f(s,AL_POSITION,pos.x,pos.y,0.0);
+	}
+
+	void SoundSource::play(const Sound& sound)
+	{
+		if(!isPlaying())
+		{
+			alSourcei(s, AL_BUFFER, sound.getBuffer());
+			alSourcePlay(s);
+		}
+	}
+
+	void SoundSource::stop(void)
+	{
+		alSourcei(s, AL_BUFFER, 0);
+	}
+
+	void SoundSource::setGain(float g)
+	{
+		alSourcef(s,AL_GAIN,g);
+	}
+
 	SoundEngine::SoundEngine(void)
-	 : sBackground(-1)
+	 : bSound(NULL), background(NULL)
 	{
 		device = alcOpenDevice(NULL);
 		if(!device)
@@ -63,7 +114,7 @@
 		if(!alcMakeContextCurrent(context))
 			throw Exception("SoundEngine::SoundEngine - Unable to use OpenAL context.", __FILE__, __LINE__);
 
-		alGenSources(1, &backgroundSource);
+		background = new SoundSource;
 
 		timer = new QTimer;
 		timer->setInterval(1000.0);
@@ -75,21 +126,9 @@
 
 	SoundEngine::~SoundEngine(void)
 	{
-		alSourcei(backgroundSource, AL_BUFFER, 0);
-		alDeleteSources(1, &backgroundSource);
-
-
-
-		for(std::vector<ALuint>::iterator it = sources.begin(); it!=sources.end(); it++)
-		{
-			alSourcei(*it, AL_BUFFER, 0);
-			alDeleteSources(1, &(*it));
-		}
-		sources.clear();
-
-		for(std::vector<Sound*>::iterator it=sounds.begin(); it!=sounds.end(); it++)
-			delete *it;
-		sounds.clear();
+		background->stop();
+		delete background;
+		delete bSound;
 
 		alcMakeContextCurrent(NULL);
 
@@ -98,51 +137,34 @@
 		alcCloseDevice(device);
 	}
 
-	int SoundEngine::loadSound(const std::string& filename)
+	void SoundEngine::setBackgroundSound(const std::string& filename)
 	{
-		if(!QFile::exists(filename.c_str()))
-			throw Exception("SoundEngine::loadSound - Unable to load : " + filename + ". File doesn't exist.", __FILE__, __LINE__);
-
-		sounds.push_back(new Sound(filename));
-
-		return sounds.size()-1;
-	}
-
-	int SoundEngine::getSource(void)
-	{
-		ALuint s;
-		alGenSources(1, &s);
-		sources.push_back(s);
-		return sources.size()-1;
-	}
-
-	void SoundEngine::setBackgroundSound(int s)
-	{
-		sBackground = s;
-	}
-
-	void SoundEngine::playSound(int source, int sound)
-	{
-		ALuint s = sources[source];
-		ALint status;
-
-		alGetSourcei(s, AL_SOURCE_STATE, &status);
-
-		if(status!=AL_PLAYING)
-		{
-			alSourcei(s, AL_BUFFER, sounds[sound]->getBuffer());
-			alSourcePlay(s);
-		}
+		delete bSound;
+		bSound = new Sound(filename);
+		checkLoop();
 	}
 
 	void SoundEngine::checkLoop(void)
 	{
-		ALint status;
-		alGetSourcei(backgroundSource, AL_SOURCE_STATE, &status);
-
-		if(status!=AL_PLAYING && sBackground>=0)
+		if(!background->isPlaying() && bSound!=NULL)
 		{
-			alSourcei(backgroundSource, AL_BUFFER, sounds[sBackground]->getBuffer());
-			alSourcePlay(backgroundSource);
+			std::cout << "Playing background..." << std::endl;
+			background->play(*bSound);
+		}
+	}
+
+	std::string SoundEngine::getLastError(void)
+	{
+		ALenum err= alGetError();
+
+		switch(err)
+		{
+			case AL_NO_ERROR: 		return "OpenAL : There is no current error.";
+			case AL_INVALID_NAME:		return "OpenAL : Invalid name parameter.";
+			case AL_INVALID_ENUM:		return "OpenAL : Invalid parameter.";
+			case AL_INVALID_VALUE:		return "OpenAL : Invalid enum parameter value.";
+			case AL_INVALID_OPERATION :	return "OpenAL : Illegal call.";
+			case AL_OUT_OF_MEMORY :		return "OpenAL : Unable to allocate memory.";
+			default :			return "OpenAL : Unknown OpenAL error.";
 		}
 	}

@@ -7,6 +7,7 @@
 	#include <AL/alc.h>
 	#include <sndfile.h>
 	#include <QTimer>
+	#include "vect2D.hpp"
 
 	class Sound
 	{
@@ -23,6 +24,26 @@
 			ALuint getBuffer(void) const;
 	};
 
+	class SoundSource
+	{
+		private :
+			ALuint s;
+		protected :
+			Vect2D pos;
+		public :
+			SoundSource(void);
+			SoundSource(const Vect2D& p);
+			~SoundSource(void);
+
+			bool isPlaying(void);
+			void setPosition(const Vect2D& p);
+			void play(const Sound& sound);
+			void stop(void);
+			void setGain(float g);
+			// add doppler effect
+			// add pitch effect
+	};
+
 	class SoundEngine : public QObject
 	{
 		Q_OBJECT
@@ -31,23 +52,26 @@
 			QTimer* 	timer;
 			ALCdevice* 	device;
 			ALCcontext* 	context;
-			ALuint 		backgroundSource;
+			//ALuint 		backgroundSource;
 
-			std::vector<Sound*> sounds;
-			std::vector<ALuint> sources;
+			//std::vector<Sound*> sounds;
+			//std::vector<ALuint> sources;
 
-			int sBackground;
+			//int sBackground;
+			SoundSource* background;
+			Sound* bSound;
 
 		public :
 			SoundEngine(void);
 			~SoundEngine(void);
 
-			int getSource(void);
-			int loadSound(const std::string& filename);
-			void setBackgroundSound(int s);
-			void playSound(int source, int sound);
+			//int getSource(void);
+			//int loadSound(const std::string& filename);
+			void setBackgroundSound(const std::string& filename);
+			//void playSound(int source, int sound);
 
-			void silence(void);
+			//void silence(void);
+			std::string getLastError(void);
 
 		private slots:
 			void checkLoop(void);

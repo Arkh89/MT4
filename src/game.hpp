@@ -10,6 +10,7 @@
 	class SpriteSet;
 	class KeyLayout;
 	class SoundEngine;
+	class Sound;
 
 	// Class :
 	class Game : public QApplication
@@ -23,6 +24,8 @@
 			SoundEngine*	soundEngine;
 
 			SpriteSet*	spriteSet;
+			Sound*		jump;
+
 		public :
 			Game(int& argc, char** argv, int w, int h, int fps);
 			~Game(void);

@@ -17,15 +17,13 @@
 		try
 		{
 			unsigned int s = 0;
-			s = soundEngine->loadSound("res/audio/jump.wav");
-			s = soundEngine->loadSound("res/audio/intro.wav");
-			soundEngine->setBackgroundSound(s);
+			jump = new Sound("res/audio/jump.wav");
+			soundEngine->setBackgroundSound("res/audio/intro.wav");
 
 			spriteSet = new SpriteSet("./res/img/jokeysmurf.png");
 			renderer->setLayer(0,"./res/img/sky.png",0.1);
 			renderer->setLayer(1,"./res/img/vegetation.png",0.3);
 			renderer->setLayer(2,"./res/img/ground.png",0.5);
-			//spriteSet = new SpriteSet("./res/img/papa.png");
 		}
 		catch(std::exception& e)
 		{
@@ -70,7 +68,7 @@
 				s1(-1.0,0.0,-0.7,-0.7),
 				s2(0.7,-0.7,1.0,0.0);
 		static std::vector<Body> bodies(NBody, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
-		static std::vector<int> sndSources(NBody, 0);
+		static std::vector<SoundSource*> sndSources(NBody,NULL);
 
 		// Temporary commands :
 		if(keyLayout->justReleased(KeyEscape))
@@ -107,7 +105,7 @@
 				double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*0.5,
 				y = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*5.0+2.0;
 				bodies[i].setNewSpeed(Vect2D(x,y), t);
-				sndSources[i] = soundEngine->getSource();
+				sndSources[i] = new SoundSource(bodies[i].getCurPos(t));
 			}
 		}
 		else
@@ -121,7 +119,8 @@
 
 			for(unsigned int i=0; i<bodies.size(); i++)
 			{
-				Segment s(bodies[i].getCurPos(tPrevious), bodies[i].getCurPos(t));
+				Vect2D pos = bodies[i].getCurPos(t);
+				Segment s(bodies[i].getCurPos(tPrevious), pos);
 
 				if( s.length()>0 & (s.intersection(s0) | s.intersection(s1) | s.intersection(s2)))
 				{
@@ -129,7 +128,9 @@
 					double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
 					//cout << bodies[i].getSp() <<endl;
 					bodies[i].setNewSpeed(Vect2D(x,s*0.99), t);
-					soundEngine->playSound(sndSources[i], 0); //'jump'
+					//soundEngine->playSound(sndSources[i], 0); //'jump'
+					sndSources[i]->setPosition(pos);
+					sndSources[i]->play(*jump);
 					//cout << bodies[i].getSp() <<endl;
 				}
 				// Render a point :
