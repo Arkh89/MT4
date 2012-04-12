@@ -22,6 +22,7 @@ class Body
 		Vect2D getPos(void);
 
 		void setNewSpeed(Vect2D s,double ti);
+		void teleport(const Vect2D& p,double ti);
 
         static void setGrav(Vect2D gNew); // To define again the gravitation constant => extended gameplay possibilities
 

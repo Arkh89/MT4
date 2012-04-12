@@ -141,9 +141,18 @@
 				if((abs(s.getY1()-s.getY2())<1e-3) && pos.y>0.2)
 				{
 					sndSources[i]->setPosition(pos);
+					sndSources[i]->stop();
 					sndSources[i]->play(*coin);
 
 					scale[i] = 0.3;
+				}
+
+				if(pos.y<-2.0)
+				{
+					bodies[i].teleport(Vect2D(0,3), t);
+					double 	x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*0.5,
+						y = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*5.0+2.0;
+					bodies[i].setNewSpeed(Vect2D(x,y), t);
 				}
 
 				// Render a smurf as a particle:
