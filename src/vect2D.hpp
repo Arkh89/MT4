@@ -51,21 +51,75 @@ typedef float TValue;
 
 class Vect2D : public Vector<TValue,2>
 {
+public :
+    Vect2D(void);
+    Vect2D(TValue _x, TValue _y);
+    Vect2D(const Vect2D& v);
+    Vect2D(TValue theta);
+    Vect2D(const Vector<TValue,2>& v);
+
+    using Vector<TValue,2>::operator+=;
+    using Vector<TValue,2>::operator-=;
+    using Vector<TValue,2>::operator*=;
+    using Vector<TValue,2>::operator/=;
+    using Vector<TValue,2>::operator+;
+    using Vector<TValue,2>::operator-;
+    using Vector<TValue,2>::operator*;
+    using Vector<TValue,2>::operator/;
+    using Vector<TValue,2>::operator==;
+    using Vector<TValue,2>::operator!=;
+
     TValue& x(void);
     TValue& y(void);
+    TValue getX(void) const;
+    TValue getY(void) const;
+
 };
 
-///Note from 11/04/2012 : I comment the implementation of the function, which is the crap try of last time. Obviously do not work in state and I've not taken time to search the right form.
-/*
-TValue& Vect2D::x(void) //fuck of passage par référence, on verra plus tard.
+Vect2D::Vect2D(void) : Vector<TValue,2>::Vector()
 {
-    return (coord(0));
+
+}
+
+Vect2D::Vect2D(TValue _x, TValue _y) : Vector<TValue,2>::Vector(_x,_y)
+{
+
+}
+
+Vect2D::Vect2D(const Vect2D &v) : Vector<TValue,2>::Vector(v)
+{
+
+}
+
+Vect2D::Vect2D(const Vector<TValue,2>& v) : Vector<TValue,2>::Vector(v)
+{
+
+}
+
+Vect2D::Vect2D(TValue theta) : Vector<TValue,2>::Vector()
+{
+    coord[0] = (cos(theta));
+    coord[1] = (sin(theta));
+}
+
+TValue& Vect2D::x(void)
+{
+    return coord[0];
 }
 
 TValue& Vect2D::y(void)
 {
-    return coord(1);
+    return coord[1];
 }
-*/
+
+TValue Vect2D::getX(void) const
+{
+    return coord[0];
+}
+
+TValue Vect2D::getY(void) const
+{
+    return coord[1];
+}
 
 #endif // VECT2D_HPP_INCLUDED

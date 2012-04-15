@@ -2,20 +2,22 @@
 #define VECTOR_HPP_INCLUDED
 #include <iostream>
 #include <cmath>
+#include <cstdarg>
 
 using namespace std;
 
 
 
-template<typename TValue, unsigned int dim>
+template<typename TValue, unsigned int d>
     class Vector
     {
         public :
-        TValue coord[dim];
-        static const unsigned int dimension=dim;
+        TValue coord[d];
+        static const unsigned int dim=d;
         typedef TValue Type;
 
         Vector(void); // x = 0, y = 0
+        Vector(TValue _x,...);
         //Vector(TValue _x, TValue _y); // x = _x,y = _y ///To remove and replace by a proper constructor in D-dimension. NOT YET IMPLEMENTED
         Vector(const Vector& v); // x = v.x, y = v.y
         //Vector(TValue theta); //To place in Vect2D.hpp as a specific implementation for this subclass. NOT YET IMPLEMENTED
@@ -37,6 +39,8 @@ template<typename TValue, unsigned int dim>
         bool   operator==(const Vector& v) const;
         bool   operator!=(const Vector& v) const;
 
+        TValue& operator[](unsigned int i);
+
         void makeUnitary(void);
 
         TValue norm(void) const;
@@ -47,12 +51,12 @@ template<typename TValue, unsigned int dim>
         Vector getUnitary(void) const;
     };
 
-template<typename T, unsigned int dim>
-    Vector<T,dim> operator*(T s, const Vector<T,dim>& v);
-template<typename T, unsigned int dim>
-    Vector<T,dim> operator/(T s, const Vector<T,dim>& v);
-template<typename T, unsigned int dim>
-    ostream &operator<<( ostream &flux, Vector<T,dim> const& v);
+template<typename T, unsigned int d>
+    Vector<T,d> operator*(T s, const Vector<T,d>& v);
+template<typename T, unsigned int d>
+    Vector<T,d> operator/(T s, const Vector<T,d>& v);
+template<typename T, unsigned int d>
+    ostream &operator<<( ostream &flux, Vector<T,d> const& v);
 /*
 typedef float TValue;
 
@@ -98,27 +102,34 @@ typedef float TValue;
         ostream &operator<<( ostream &flux, Vect2D const& v);
 */
 
-template<typename T, unsigned int dim>
-Vector<T,dim>::Vector(void)
+template<typename T, unsigned int d>
+Vector<T,d>::Vector()
 {
     for(int i(0); i<dim; i++)
         coord[i]=0;
 }
 
+template<typename T, unsigned int d>
+Vector<T,d>::Vector(T _x,...)
+{
+    va_list coordl;
+    va_start(coordl, _x);
+    for(int i(1); i<dim; i++)
+        coord[i] = va_arg(coordl,T);
+    va_end(coordl);
+
+}
 
 ///Implement here the new general constructor.
 /*Vect2D::Vect2D(TValue _x, TValue _y)
  : x(_x),y(_y)
 { }*/
 
-template<typename T, unsigned int dim>
-Vector<T,dim>::Vector(const Vector& v)
+template<typename T, unsigned int d>
+Vector<T,d>::Vector(const Vector<T,d>& v)
 {
-    if(dim == v.dimension)
-    {
-        for(int i(0); i<dim; i++)
+    for(int i(0); i<dim; i++)
             coord[i]=v.coord[i];
-    }
 }
 
 ///To remove.
@@ -126,24 +137,24 @@ Vector<T,dim>::Vector(const Vector& v)
  : x(cos(theta)),y(sin(theta))
 { }*/
 
-template<typename T, unsigned int dim>
-Vector<T,dim> Vector<T,dim>::operator+(const Vector& v) const
+template<typename T, unsigned int d>
+Vector<T,d> Vector<T,d>::operator+(const Vector<T,d>& v) const
 {
     Vector copie = v;
     copie += *this;
     return copie;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim> Vector<T,dim>::operator-(const Vector& v) const
+template<typename T, unsigned int d>
+Vector<T,d> Vector<T,d>::operator-(const Vector<T,d>& v) const
 {
     Vector copie = v;
     copie -= *this;
     return copie;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim> Vector<T,dim>::operator-() const
+template<typename T, unsigned int d>
+Vector<T,d> Vector<T,d>::operator-() const
 {
     Vector copie;
     for(int i(0); i<dim; i++)
@@ -151,8 +162,8 @@ Vector<T,dim> Vector<T,dim>::operator-() const
     return copie;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim> Vector<T,dim>::operator*(const Vector& v) const
+template<typename T, unsigned int d>
+Vector<T,d> Vector<T,d>::operator*(const Vector<T,d>& v) const
 {
     Vector copie = v;
     for(int i(0); i<dim; i++)
@@ -160,8 +171,8 @@ Vector<T,dim> Vector<T,dim>::operator*(const Vector& v) const
     return copie;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim> Vector<T,dim>::operator/(const Vector& v) const
+template<typename T, unsigned int d>
+Vector<T,d> Vector<T,d>::operator/(const Vector<T,d>& v) const
 {
     Vector copie = v;
     for(int i(0); i<dim; i++)
@@ -169,8 +180,8 @@ Vector<T,dim> Vector<T,dim>::operator/(const Vector& v) const
     return copie;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim> Vector<T,dim>::operator*(T s) const
+template<typename T, unsigned int d>
+Vector<T,d> Vector<T,d>::operator*(T s) const
 {
     Vector copie;
     for(int i(0); i<dim; i++)
@@ -178,8 +189,8 @@ Vector<T,dim> Vector<T,dim>::operator*(T s) const
     return copie;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim> Vector<T,dim>::operator/(T s) const
+template<typename T, unsigned int d>
+Vector<T,d> Vector<T,d>::operator/(T s) const
 {
     Vector copie;
     for(int i(0); i<dim; i++)
@@ -187,8 +198,8 @@ Vector<T,dim> Vector<T,dim>::operator/(T s) const
     return copie;
 }
 
-template<typename T, unsigned int dim>
-bool Vector<T,dim>::operator==(const Vector& v) const
+template<typename T, unsigned int d>
+bool Vector<T,d>::operator==(const Vector<T,d>& v) const
 {
     for(int i(0); i<dim; i++)
     {
@@ -198,8 +209,8 @@ bool Vector<T,dim>::operator==(const Vector& v) const
     return true;
 }
 
-template<typename T, unsigned int dim>
-bool Vector<T,dim>::operator!=(const Vector& v) const
+template<typename T, unsigned int d>
+bool Vector<T,d>::operator!=(const Vector<T,d>& v) const
 {
     for(int i(0); i<dim; i++)
     {
@@ -209,56 +220,70 @@ bool Vector<T,dim>::operator!=(const Vector& v) const
     return false;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim>& Vector<T,dim>::operator+=(const Vector& v)
+template<typename T, unsigned int d>
+T& Vector<T,d>::operator[](unsigned int i)
+{
+    /*
+    if(i<dim)
+        return coord[i];
+    else
+        return WRITE AN ERROR HERE;
+        Well, I suppose we have to check the length of the vector, but I'm unsure of the mean to handle the error...
+        */
+    return coord[i];
+}
+
+
+template<typename T, unsigned int d>
+Vector<T,d>& Vector<T,d>::operator+=(const Vector<T,d>& v)
 {
     for(int i(0); i<dim; i++)
         coord[i] += v.coord[i];
     return *this;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim>& Vector<T,dim>::operator-=(const Vector& v)
+template<typename T, unsigned int d>
+Vector<T,d>& Vector<T,d>::operator-=(const Vector<T,d>& v)
 {
     for(int i(0); i<dim; i++)
         coord[i] -= v.coord[i];
     return *this;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim>& Vector<T,dim>::operator*=(const Vector& v)
+template<typename T, unsigned int d>
+Vector<T,d>& Vector<T,d>::operator*=(const Vector<T,d>& v)
 {
     for(int i(0); i<dim; i++)
         coord[i] *= v.coord[i];
     return *this;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim>& Vector<T,dim>::operator/=(const Vector& v)
+template<typename T, unsigned int d>
+Vector<T,d>& Vector<T,d>::operator/=(const Vector<T,d>& v)
 {
     for(int i(0); i<dim; i++)
         coord[i] /= v.coord[i];
     return *this;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim>& Vector<T,dim>::operator*=(T s)
+template<typename T, unsigned int d>
+Vector<T,d>& Vector<T,d>::operator*=(T s)
 {
     for(int i(0); i<dim; i++)
         coord[i] *= s;
     return *this;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim>& Vector<T,dim>::operator/=(T s)
+template<typename T, unsigned int d>
+Vector<T,d>& Vector<T,d>::operator/=(T s)
 {
     for(int i(0); i<dim; i++)
         coord[i] /= s;
     return *this;
 }
 
-template<typename T, unsigned int dim>
-T Vector<T,dim>::norm(void) const
+template<typename T, unsigned int d>
+T Vector<T,d>::norm(void) const
 {
     T dis = 0;
     for(int i(0); i<dim; i++)
@@ -266,16 +291,16 @@ T Vector<T,dim>::norm(void) const
     return  sqrt(dis);
 }
 
-template<typename T, unsigned int dim>
-void Vector<T,dim>::makeUnitary(void)
+template<typename T, unsigned int d>
+void Vector<T,d>::makeUnitary(void)
 {
     T nor = norm();
     for(int i(0); i<dim; i++)
         coord[i] /= nor;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim> Vector<T,dim>::getUnitary(void) const
+template<typename T, unsigned int d>
+Vector<T,d> Vector<T,d>::getUnitary(void) const
 {
     Vector copie;
     T nor = norm();
@@ -284,8 +309,8 @@ Vector<T,dim> Vector<T,dim>::getUnitary(void) const
     return copie;
 }
 
-template<typename T, unsigned int dim>
-T Vector<T,dim>::scalarProd(const Vector& v) const
+template<typename T, unsigned int d>
+T Vector<T,d>::scalarProd(const Vector<T,d>& v) const
 {
     T sprod(0);
     for(int i(0); i<dim; i++)
@@ -293,13 +318,13 @@ T Vector<T,dim>::scalarProd(const Vector& v) const
     return sprod;
 }
 
-template<typename T, unsigned int dim>
-T Vector<T,dim>::distance(const Vector& v) const
+template<typename T, unsigned int d>
+T Vector<T,d>::distance(const Vector<T,d>& v) const
 {
-    T d(0);
+    T dist(0);
     for(int i(0); i<dim; i++)
-        d += (coord[i]-v.coord[i]) * (coord[i]-v.coord[i]);
-    return sqrt(d);
+        dist += (coord[i]-v.coord[i]) * (coord[i]-v.coord[i]);
+    return sqrt(dist);
 }
 
 /*TValue Vector::angleX(void) const
@@ -308,37 +333,37 @@ T Vector<T,dim>::distance(const Vector& v) const
     return theta;
 }*/ // a refaire pour les Vect2D uniquement.
 
-template<typename T, unsigned int dim>
-T Vector<T,dim>::angle(const Vector& v) const //I think this one is just fine for D-dimension, if cosine is define for the TValue type.
+template<typename T, unsigned int d>
+T Vector<T,d>::angle(const Vector<T,d>& v) const //I think this one is just fine for D-dimension, if cosine is define for the TValue type.
 {
     T theta = acos( scalarProd(v)/(norm()*v.norm()) );
     return theta;
 }
 
-template<typename T, unsigned int dim>
-ostream &operator<<( ostream &flux, Vector<T,dim> const& v)
+template<typename T, unsigned int d>
+ostream &operator<<( ostream &flux, Vector<T,d> const& v)
 {
     flux << '(';
     for(int i(0); i<(v.dim-1); i++)
         flux << v.coord[i] << ", ";
-    flux << v.coord(dim-1) << ')';
+    flux << v.coord(v.dim-1) << ')';
     return flux;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim> operator*(T s, const Vector<T,dim>& v)
+template<typename T, unsigned int d>
+Vector<T,d> operator*(T s, const Vector<T,d>& v)
 {
-    Vector<T,dim> vect;
+    Vector<T,d> vect;
     for(int i(0); i<v.dim; i++)
         vect.coord[i] = s * v.coord[i];
     return vect;
 }
 
-template<typename T, unsigned int dim>
-Vector<T,dim> operator/(T s, const Vector<T,dim>& v)
+template<typename T, unsigned int d>
+Vector<T,d> operator/(T s, const Vector<T,d>& v)
 {
-    Vector<T,dim> vect;
-    for(int i(0); i<dim; i++)
+    Vector<T,d> vect;
+    for(int i(0); i<v.dim; i++)
         vect.coord[i] = s / v.coord[i];
     return vect;
 }
