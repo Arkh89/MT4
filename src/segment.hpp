@@ -8,7 +8,7 @@
 
 using namespace std;
 
-
+typedef float TValue;
 class Segment
 {
 	public:

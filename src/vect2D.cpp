@@ -1,3 +1,6 @@
+//Will be useless soon. File is already not yet included in MT4.pro, but I keep it in the git database until work is finished.
+
+
 #include <iostream>
 #include <cmath>
 #include "vect2D.hpp"

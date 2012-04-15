@@ -1,6 +1,7 @@
 CONFIG 		+= 	qt
 QT           	+= 	opengl
 HEADERS      	+= 	./src/vect2D.hpp \
+			./src/vector.hpp \
 			./src/exception.hpp \
 			./src/MT4Header.hpp \
 			./src/segment.hpp \
@@ -12,7 +13,6 @@ HEADERS      	+= 	./src/vect2D.hpp \
 			./src/game.hpp
 SOURCES      	+= 	./src/main.cpp \
 			./src/exception.cpp \
-			./src/vect2D.cpp \
 			./src/segment.cpp \
 			./src/sprite.cpp \
 			./src/renderer.cpp \
