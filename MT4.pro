@@ -1,5 +1,7 @@
 CONFIG 		+= 	qt
 QT           	+= 	opengl
+LIBS		+=	-lopenal\
+			-lsndfile
 HEADERS      	+= 	./src/vect2D.hpp \
 			./src/vector.hpp \
 			./src/exception.hpp \
@@ -10,6 +12,7 @@ HEADERS      	+= 	./src/vect2D.hpp \
 			./src/world.hpp \
 			./src/body.hpp \
 			./src/keyLayout.hpp \
+			./src/soundEngine.hpp \
 			./src/game.hpp
 SOURCES      	+= 	./src/main.cpp \
 			./src/exception.cpp \
@@ -19,4 +22,5 @@ SOURCES      	+= 	./src/main.cpp \
 			./src/world.cpp \
 			./src/body.cpp \
 			./src/keyLayout.cpp \
+			./src/soundEngine.cpp \
 			./src/game.cpp

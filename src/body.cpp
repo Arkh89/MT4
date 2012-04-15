@@ -57,6 +57,11 @@ void Body::setNewSpeed(Vect2D s,double ti)
 	v = s;
 }
 
+void Body::teleport(const Vect2D& p, double ti)
+{
+	pos = p;
+	tI = ti;
+}
 
 void Body::setGrav(Vect2D gNew)
 {
