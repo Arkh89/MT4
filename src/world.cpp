@@ -4,7 +4,7 @@
 #if defined(__linux__) || defined(__APPLE__)
 	#include <time.h>
 #elif defined(_WIN32) || defined(_WIN64)
-	#include<Windows.h>
+	#include <Windows.h>
 #else
 	#error("Target Operating System not recognized")
 #endif

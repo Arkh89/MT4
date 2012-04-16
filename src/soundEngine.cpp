@@ -78,7 +78,7 @@
 	void SoundSource::setPosition(const Vect2D& p)
 	{
 		pos = p;
-		alSource3f(s,AL_POSITION,pos.x,pos.y,0.0);
+		alSource3f(s,AL_POSITION,pos.getX(),pos.getY(),0.0);
 	}
 
 	void SoundSource::play(const Sound& sound)
@@ -147,7 +147,7 @@
 	void SoundEngine::setListenerPosition(const Vect2D& p)
 	{
 		background->setPosition(p);
-		alListener3f(AL_POSITION,p.x,p.y,0.0);
+		alListener3f(AL_POSITION,p.getX(),p.getY(),0.0);
 	}
 
 	void SoundEngine::checkLoop(void)

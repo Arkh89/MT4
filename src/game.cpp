@@ -76,21 +76,21 @@
 		if(keyLayout->justReleased(KeyEscape))
 			quit();
 		if(keyLayout->pressed(KeyRight))
-			renderer->center.x+=0.02/renderer->scale;
+			renderer->center.x()+=0.02/renderer->scale;
 		if(keyLayout->pressed(KeyLeft))
-			renderer->center.x-=0.02/renderer->scale;
+			renderer->center.x()-=0.02/renderer->scale;
 		if(keyLayout->pressed(KeyDown))
-			renderer->center.y-=0.02/renderer->scale;
+			renderer->center.y()-=0.02/renderer->scale;
 		if(keyLayout->pressed(KeyUp))
-			renderer->center.y+=0.02/renderer->scale;
+			renderer->center.y()+=0.02/renderer->scale;
 		if(keyLayout->pressed(KeyPlus))
 			renderer->scale*=1.05;
 		if(keyLayout->pressed(KeyMinus))
 			renderer->scale/=1.05;
 		if(keyLayout->pressed(KeySpace))
 		{
-			renderer->center.x = 0.0;
-			renderer->center.y = 0.0;
+			renderer->center.x() = 0.0;
+			renderer->center.y() = 0.0;
 			renderer->scale	   = 1.0;
 		}
 		if(keyLayout->justPressed(KeyReturn))
@@ -138,7 +138,7 @@
 					//cout << bodies[i].getSp() <<endl;
 				}
 
-				if((abs(s.getY1()-s.getY2())<1e-3) && pos.y>0.2)
+				if((abs(s.getY1()-s.getY2())<1e-3) && pos.y()>0.2)
 				{
 					sndSources[i]->setPosition(pos);
 					sndSources[i]->stop();
@@ -147,7 +147,7 @@
 					scale[i] = 0.3;
 				}
 
-				if(pos.y<-2.0)
+				if(pos.y()<-2.0)
 				{
 					bodies[i].teleport(Vect2D(0,3), t);
 					double 	x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*0.5,
@@ -156,7 +156,7 @@
 				}
 
 				// Render a smurf as a particle:
-				if(bodies[i].getSp().x<0) // facing left
+				if(bodies[i].getSp().x()<0) // facing left
 					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(-scale[i],scale[i]));
 				else // facing right
 					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(scale[i],scale[i]));
