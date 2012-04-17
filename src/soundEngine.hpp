@@ -3,8 +3,15 @@
 
 	#include<vector>
 	#include<string>
-	#include <AL/al.h>
-	#include <AL/alc.h>
+#if defined(__linux__) || defined(__APPLE__)
+    #include <AL/al.h>
+    #include <AL/alc.h>
+#elif defined(_WIN32) || defined(_WIN64)
+    #include <AL/al.h>
+    #include <AL/alc.h>
+#else
+	#error("Target Operating System not recognized")
+#endif
 	#include <sndfile.h>
 	#include <QTimer>
 	#include "vect2D.hpp"

@@ -24,3 +24,16 @@ SOURCES      	+= 	./src/main.cpp \
 			./src/keyLayout.cpp \
 			./src/soundEngine.cpp \
 			./src/game.cpp
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../openal-soft-1.14-bin/lib/Win32 -libOpenAL32
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../openal-soft-1.14-bin/lib/Win32 -libOpenAL32d
+
+INCLUDEPATH += $$PWD/../openal-soft-1.14-bin/include
+DEPENDPATH += $$PWD/../openal-soft-1.14-bin/include
+
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../Windows/Utilitaires/libsndfile/lib/ -llibsndfile-1
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../Windows/Utilitaires/libsndfile/lib/ -llibsndfile-1d
+
+INCLUDEPATH += $$PWD/../../Windows/Utilitaires/libsndfile/include
+DEPENDPATH += $$PWD/../../Windows/Utilitaires/libsndfile/include

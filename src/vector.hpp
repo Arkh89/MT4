@@ -370,3 +370,4 @@ Vector<T,d> operator/(T s, const Vector<T,d>& v)
 
 
 #endif // VECTOR_HPP_INCLUDED
+    
