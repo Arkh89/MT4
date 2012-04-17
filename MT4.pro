@@ -17,6 +17,7 @@ HEADERS      	+= 	./src/vect2D.hpp \
 SOURCES      	+= 	./src/main.cpp \
 			./src/exception.cpp \
 			./src/segment.cpp \
+			./src/vect2D.cpp \
 			./src/sprite.cpp \
 			./src/renderer.cpp \
 			./src/world.cpp \
