@@ -12,14 +12,14 @@
 
 		renderer 	= new Renderer(w,h);
 		keyLayout 	= new KeyLayout(renderer);
-		soundEngine 	= new SoundEngine();
+                soundEngine 	= new SoundEngine();
 
 		try
 		{
 			unsigned int s = 0;
-			jump = new Sound("res/audio/jump.wav");
-			coin = new Sound("res/audio/coin.wav");
-			soundEngine->setBackgroundSound("res/audio/intro.wav");
+                        jump = new Sound("res/audio/jump.wav");
+                        coin = new Sound("res/audio/coin.wav");
+                        soundEngine->setBackgroundSound("res/audio/intro.wav");
 
 			spriteSet = new SpriteSet("./res/img/jokeysmurf.png");
 			renderer->setLayer(0,"./res/img/sky.png",0.1);
@@ -117,7 +117,7 @@
 			renderer->begin();
 			renderer->drawBackground();
 
-			soundEngine->setListenerPosition(-renderer->center);
+                        soundEngine->setListenerPosition(-renderer->center);
 
 			double t = World::getTime();
 
@@ -132,18 +132,16 @@
 					double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
 					//cout << bodies[i].getSp() <<endl;
 					bodies[i].setNewSpeed(Vect2D(x,s*0.99), t);
-					//soundEngine->playSound(sndSources[i], 0); //'jump'
-					sndSources[i]->setPosition(pos);
-					sndSources[i]->play(*jump);
+                                        sndSources[i]->setPosition(pos);
+                                        sndSources[i]->play(*jump);
 					//cout << bodies[i].getSp() <<endl;
 				}
 
 				if((abs(s.getY1()-s.getY2())<1e-3) && pos.y()>0.2)
 				{
-					sndSources[i]->setPosition(pos);
-					sndSources[i]->stop();
-					sndSources[i]->play(*coin);
-
+                                        sndSources[i]->setPosition(pos);
+                                        sndSources[i]->stop();
+                                        sndSources[i]->play(*coin);
 					scale[i] = 0.3;
 				}
 

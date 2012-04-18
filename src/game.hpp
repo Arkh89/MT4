@@ -11,6 +11,7 @@
 	class KeyLayout;
 	class SoundEngine;
 	class Sound;
+        class SoundSource;
 
 	// Class :
 	class Game : public QApplication
