@@ -16,13 +16,11 @@
 		static const unsigned int dim=d;
 		typedef TValue Type;
 
-		Vector(void); // x = 0, y = 0
+		Vector(void); //All coordinates = 0
 		//Vector(TValue _x,...);
 		Vector(double a1, ...);
 		Vector(TValue* dat);
-		//Vector(TValue _x, TValue _y); // x = _x,y = _y ///To remove and replace by a proper constructor in D-dimension. NOT YET IMPLEMENTED
-		Vector(const Vector& v); // x = v.x, y = v.y
-		//Vector(TValue theta); //To place in Vect2D.hpp as a specific implementation for this subclass. NOT YET IMPLEMENTED
+		Vector(const Vector& v);
 
 		Vector& operator+=(const Vector& v);
 		Vector& operator-=(const Vector& v);
@@ -61,50 +59,6 @@
 	template<typename T, unsigned int d>
 	ostream &operator<<( ostream &flux, Vector<T,d> const& v);
 
-	/*
-	typedef float TValue;
-
-	class Vect2D
-	{
-	public :
-	TValue x,y;
-
-	Vect2D(void); // x = 0, y = 0
-	Vect2D(TValue _x, TValue _y); // x = _x,y = _y
-	Vect2D(const Vect2D& v); // x = v.x, y = v.y
-	Vect2D(TValue theta); //
-
-	Vect2D& operator+=(const Vect2D& v);
-	Vect2D& operator-=(const Vect2D& v);
-	Vect2D& operator*=(const Vect2D& v);
-	Vect2D& operator/=(const Vect2D& v);
-	Vect2D& operator*=(TValue s);
-	Vect2D& operator/=(TValue s);
-
-	Vect2D operator+(const Vect2D& v) const;
-	Vect2D operator-(const Vect2D& v) const;
-	Vect2D operator-(void) const;
-	Vect2D operator*(const Vect2D& v) const;
-	Vect2D operator/(const Vect2D& v) const;
-	Vect2D operator*(TValue s) const;
-	Vect2D operator/(TValue s) const;
-	bool   operator==(const Vect2D& v) const;
-	bool   operator!=(const Vect2D& v) const;
-
-	void makeUnitary(void);
-
-	TValue norm(void) const;
-	TValue distance(const Vect2D& v) const;
-	TValue scalarProd(const Vect2D& v) const;
-	TValue angle(const Vect2D& v) const;
-	TValue angleX(void) const;
-	Vect2D getUnitary(void) const;
-	};
-
-	Vect2D operator*(TValue s, const Vect2D& v);
-	Vect2D operator/(TValue s, const Vect2D& v);
-	ostream &operator<<( ostream &flux, Vect2D const& v);
-	*/
 
 	template<typename T, unsigned int d>
 	Vector<T,d>::Vector()
@@ -131,22 +85,12 @@
 			coord[i] = dat[i];
 	}
 
-	///Implement here the new general constructor.
-	/*Vect2D::Vect2D(TValue _x, TValue _y)
-	: x(_x),y(_y)
-	{ }*/
-
 	template<typename T, unsigned int d>
 	Vector<T,d>::Vector(const Vector<T,d>& v)
 	{
 		for(int i=0; i<dim; i++)
 			coord[i]=v.coord[i];
 	}
-
-	///To remove.
-	/*Vect2D::Vect2D(TValue theta)
-	: x(cos(theta)),y(sin(theta))
-	{ }*/
 
 	template<typename T, unsigned int d>
 	Vector<T,d> Vector<T,d>::operator+(const Vector<T,d>& v) const
@@ -337,12 +281,6 @@
 			dist += (coord[i]-v.coord[i]) * (coord[i]-v.coord[i]);
 		return sqrt(dist);
 	}
-
-	/*TValue Vector::angleX(void) const
-	{
-	TValue theta = acos( x/norm() );
-	return theta;
-	}*/ // a refaire pour les Vect2D uniquement.
 
 	template<typename T, unsigned int d>
 	T Vector<T,d>::angle(const Vector<T,d>& v) const //I think this one is just fine for D-dimension, if cosine is define for the TValue type.
