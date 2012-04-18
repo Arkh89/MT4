@@ -1,21 +1,23 @@
 #ifndef __MT4_SOUND_ENGINE__
 #define __MT4_SOUND_ENGINE__
 
-	#include<vector>
+        #include<vector>
 	#include<string>
 	#include <AL/al.h>
 	#include <AL/alc.h>
-	#include <sndfile.h>
 	#include <QTimer>
 	#include "vect2D.hpp"
+	#include <cstring>
 
 	class Sound
 	{
 		private :
 			ALsizei nbSamples, sampleRate;
-			std::vector<ALshort> samples;
 			ALenum format;
 			ALuint buffer;
+
+			void readData(unsigned short& dest, char* data);
+			void readData(unsigned int& dest, char* data);
 
 		public :
 			Sound(const std::string& filename);
@@ -67,6 +69,6 @@
 
 		private slots:
 			void checkLoop(void);
-	};
+        };
 
 #endif // __MT4_SOUND_ENGINE__

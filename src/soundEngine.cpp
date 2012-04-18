@@ -1,45 +1,115 @@
 #include "soundEngine.hpp"
 #include "exception.hpp"
 #include <QFile>
+#include <fstream>
 
-	Sound::Sound(const std::string& filename)
+        Sound::Sound(const std::string& filename)
 	{
-		SF_INFO fileInfos;
-		SNDFILE* file = sf_open(filename.c_str(), SFM_READ, &fileInfos);
-		if(!file)
-			throw Exception("Sound::Sound - Unable to read file : " + filename + ".", __FILE__, __LINE__);
+		//See https://ccrma.stanford.edu/courses/422/projects/WaveFormat/ for more informations
+		
+		int length, offset;
+		char* fileBuffer;
+		std::fstream file;
+		file.open(filename.c_str(), std::fstream::in | std::fstream::binary);
 
-		nbSamples  = static_cast<ALsizei>(fileInfos.channels * fileInfos.frames);
-		sampleRate = static_cast<ALsizei>(fileInfos.samplerate);
+		if(!file.is_open())
+			throw Exception("Sound::Sound - Unable to load file : " + filename + ".", __FILE__, __LINE__);
 
-		samples.resize(nbSamples);
+		// get length of file:
+		file.seekg (0, std::ios::end);
+		length = file.tellg();
+		file.seekg (0, std::ios::beg);
 
-		if(sf_read_short(file, &samples[0], nbSamples) < nbSamples)
-			throw Exception("Sound::Sound - Unable to read file : " + filename + ". Samples failure.", __FILE__, __LINE__);
+		// allocate memory:
+		fileBuffer = new char [length];
 
-		switch (fileInfos.channels)
+		// read data as a block:
+		file.read (fileBuffer,length);
+
+		file.close();
+
+		unsigned short	audioFormat, audioChannels, bitsPerSample;
+		unsigned int 	chunkSize, subChunk1Size, subChunk2Size, sampleRate, dataSize;
+
+
+		std::cout << "Loading 		: " << filename << std::endl;
+		std::cout << "	Chunk name 	: " << std::string(fileBuffer,4) << std::endl;
+		readData(chunkSize,fileBuffer+4);
+		std::cout << "	Chunk size 	: " << chunkSize << std::endl;
+		std::cout << "	Format	 	: " << std::string(fileBuffer+8,4) << std::endl;
+		std::cout << "	Subchunk ID 	: " << std::string(fileBuffer+12,4) << std::endl;
+		readData(subChunk1Size,fileBuffer+16);
+		std::cout << "	Sub Chunk size 	: " << subChunk1Size << std::endl;
+		readData(audioFormat, fileBuffer+20);
+		readData(audioChannels, fileBuffer+22);
+		readData(sampleRate, fileBuffer+24);
+		readData(bitsPerSample, fileBuffer+34);
+		std::cout << "	Audio format 	: " << audioFormat << std::endl;
+		std::cout << "	Audio channels 	: " << audioChannels << std::endl;
+		std::cout << "	Sample rate 	: " << sampleRate << std::endl;
+		std::cout << "	Bits per Sample	: " << bitsPerSample << std::endl;
+
+		offset = 0;
+		while(std::string(fileBuffer+36+offset,4)!="data")
 		{
-			case 1 :  format = AL_FORMAT_MONO16;   break;
-			case 2 :  format = AL_FORMAT_STEREO16; break;
-			default :
-				throw Exception("Sound::Sound - Unable to read file : " + filename + ". Incompatible format.", __FILE__, __LINE__);
+			offset++;
+			if(36+offset>=length)
+				throw Exception("Sound::Sound - Unable to find starting of DATA chunk for sound file : " + filename + ".", __FILE__, __LINE__);
 		}
 
-		sf_close(file);
+		std::cout << "	Data offset	: " << offset << std::endl;
+		std::cout << "	Subchunk ID 	: " << std::string(fileBuffer+36+offset,4) << std::endl;
+		readData(subChunk2Size,fileBuffer+40+offset);
+		std::cout << "	Sub Chunk size 	: " << subChunk2Size << std::endl;
+
+		if(bitsPerSample==8 && audioChannels==1)
+			format = AL_FORMAT_MONO8;
+		else if(bitsPerSample==8 && audioChannels==2)
+			format = AL_FORMAT_STEREO8;
+		else if(bitsPerSample==16 && audioChannels==1)
+			format = AL_FORMAT_MONO16;
+		else if(bitsPerSample==16 && audioChannels==2)
+			format = AL_FORMAT_STEREO16;
+		else
+		{
+			delete[] fileBuffer;
+			throw Exception("Sound::Sound - Unable to find audio format corresponding to bitsPerSample=" + to_string(bitsPerSample) + "bits and channels=" + to_string(audioChannels) + ".", __FILE__, __LINE__);
+		}
+
+		readData(dataSize,fileBuffer+40+offset);
+
+		unsigned char* data = new unsigned char[dataSize];
+		memcpy(data, fileBuffer+44, dataSize);
 
 		alGenBuffers(1, &buffer);
 
-		alBufferData(buffer, format, &samples[0], nbSamples * sizeof(ALushort), sampleRate);
+		this->nbSamples		= dataSize;
+		this->sampleRate	= sampleRate;
+
+		alBufferData(buffer, format, data, dataSize, sampleRate);
+
+		delete[] fileBuffer;
+		delete[] data;
 
 		if(alGetError()!=AL_NO_ERROR)
 			throw Exception("Sound::Sound - Unable to read file : " + filename + ". An OpenAL error occured.", __FILE__, __LINE__);
-
+			
+		std::cout << "	File loaded successfully" << std::endl;
 	}
 
 	Sound::~Sound(void)
 	{
-		samples.clear();
 		alDeleteBuffers(1, &buffer);
+	}
+
+	void Sound::readData(unsigned short& dest, char* data)
+	{
+		memcpy(&dest, data, sizeof(unsigned short));
+	}
+
+	void Sound::readData(unsigned int& dest, char* data)
+	{
+		memcpy(&dest, data, sizeof(unsigned int));
 	}
 
 	ALuint Sound::getBuffer(void) const
@@ -141,6 +211,7 @@
 	{
 		delete bSound;
 		bSound = new Sound(filename);
+		background->stop();
 		checkLoop();
 	}
 
@@ -156,6 +227,7 @@
 		{
 			std::cout << "Playing background..." << std::endl;
 			background->play(*bSound);
+			getLastError();
 		}
 	}
 
@@ -173,4 +245,4 @@
 			case AL_OUT_OF_MEMORY :		return "OpenAL : Unable to allocate memory.";
 			default :			return "OpenAL : Unknown OpenAL error.";
 		}
-	}
+        }
