@@ -3,7 +3,7 @@
 
 	#include <string>
 	#include <QImage>
-	#include <QGLWidget>
+	#include <QtOpenGL/QGLWidget>
 	#include "vect2D.hpp"
 
 	class SpriteRect
