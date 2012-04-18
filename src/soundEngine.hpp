@@ -1,28 +1,23 @@
 #ifndef __MT4_SOUND_ENGINE__
 #define __MT4_SOUND_ENGINE__
 
-	#include<vector>
+        #include<vector>
 	#include<string>
-#if defined(__linux__) || defined(__APPLE__)
-    #include <AL/al.h>
-    #include <AL/alc.h>
-#elif defined(_WIN32) || defined(_WIN64)
-    #include <AL/al.h>
-    #include <AL/alc.h>
-#else
-	#error("Target Operating System not recognized")
-#endif
-	#include <sndfile.h>
+	#include <AL/al.h>
+	#include <AL/alc.h>
 	#include <QTimer>
 	#include "vect2D.hpp"
+	#include <cstring>
 
 	class Sound
 	{
 		private :
 			ALsizei nbSamples, sampleRate;
-			std::vector<ALshort> samples;
 			ALenum format;
 			ALuint buffer;
+
+			void readData(unsigned short& dest, char* data);
+			void readData(unsigned int& dest, char* data);
 
 		public :
 			Sound(const std::string& filename);
@@ -74,6 +69,6 @@
 
 		private slots:
 			void checkLoop(void);
-	};
+        };
 
 #endif // __MT4_SOUND_ENGINE__

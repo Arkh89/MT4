@@ -38,7 +38,7 @@
 			void end(void);
 
 			// Primitive drawing :
-			void draw(const Vect2D& pt);
+			void draw(const Vect2D& pt, float radius=1.0f);
 			void draw(const Segment& s);
 			void draw(const SpriteSet& set, unsigned int sprite, const Vect2D& center, const Vect2D& diag, const Vect2D& loop = Vect2D(0.0,0.0));
 			void drawBackground(void);

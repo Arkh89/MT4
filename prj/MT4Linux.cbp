@@ -90,6 +90,7 @@
 		<Unit filename="../src/sprite.hpp" />
 		<Unit filename="../src/vect2D.cpp" />
 		<Unit filename="../src/vect2D.hpp" />
+		<Unit filename="../src/vector.hpp" />
 		<Unit filename="../src/world.cpp" />
 		<Unit filename="../src/world.hpp" />
 		<Extensions>

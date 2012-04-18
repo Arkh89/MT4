@@ -77,8 +77,9 @@
         swapBuffers();
     }
 
-    void Renderer::draw(const Vect2D& pt)
+    void Renderer::draw(const Vect2D& pt, float radius)
     {
+    	glPointSize(radius);
         glBegin(GL_POINTS);
             glColor3ub(255,0,0);
             glVertex2f(pt.getX(),pt.getY());
