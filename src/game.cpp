@@ -64,7 +64,7 @@
 	{
 		const unsigned int NBody = 5;
 		static World w;
-		static bool init = false;
+		static bool init = false, realRendering=true;
 		static Segment 	s0(-0.7,-0.7,0.7,-0.7),
 				s1(-1.0,0.0,-0.7,-0.7),
 				s2(0.7,-0.7,1.0,0.0);
@@ -87,11 +87,12 @@
 			renderer->scale*=1.05;
 		if(keyLayout->pressed(KeyMinus))
 			renderer->scale/=1.05;
-		if(keyLayout->pressed(KeySpace))
+		if(keyLayout->justPressed(KeySpace))
 		{
 			renderer->center.x() = 0.0;
 			renderer->center.y() = 0.0;
 			renderer->scale	   = 1.0;
+			realRendering = !realRendering;
 		}
 		if(keyLayout->justPressed(KeyReturn))
 			World::switchFreeze();
@@ -154,18 +155,20 @@
 				}
 
 				// Render a smurf as a particle:
-				if(bodies[i].getSp().x()<0) // facing left
-					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(-scale[i],scale[i]));
-				else // facing right
-					renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(scale[i],scale[i]));
+				if(realRendering)
+				{
+					if(bodies[i].getSp().x()<0) // facing left
+						renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(-scale[i],scale[i]));
+					else // facing right
+						renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(scale[i],scale[i]));
+				}
+				else // Render a point :
+					renderer->draw(bodies[i].getCurPos(t),5);
 
 				if(scale[i]>0.15)
 					scale[i] = scale[i]/1.01;
 				else
 					scale[i] = 0.15;
-
-				// Render a point :
-				//renderer->draw(bodies[i].getCurPos(t));
 			}
 			tPrevious = t;
 		}
