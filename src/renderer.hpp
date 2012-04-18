@@ -1,7 +1,7 @@
 #ifndef __MT4_RENDERER__
 #define __MT4_RENDERER__
 
-	#include <QGLWidget>
+	#include <QtOpenGL/QGLWidget>
 	#include "vect2D.hpp"
 	#include "segment.hpp"
 	#include "sprite.hpp"
