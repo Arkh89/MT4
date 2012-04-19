@@ -8,9 +8,10 @@ Vect2D::Vect2D(void) : Vector<TValue,2>::Vector()
 
 }
 
-Vect2D::Vect2D(TValue _x, TValue _y) : /*Vector<TValue,2>::Vector()*/ Vector<TValue,2>::Vector(_x,_y)
+Vect2D::Vect2D(TValue _x, TValue _y)
 {
-
+	x() = _x;
+	y() = _y;
 }
 
 Vect2D::Vect2D(const Vect2D &v) : Vector<TValue,2>::Vector(v)

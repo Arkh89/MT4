@@ -9,9 +9,12 @@ Color::Color(void) : Vector<TValue,4>::Vector()
 
 }
 
-Color::Color(TValue _R, TValue _G, TValue _B, TValue _A) : Vector<TValue,4>::Vector(_R,_G,_B,_A)
+Color::Color(TValue _R, TValue _G, TValue _B, TValue _A)
 {
-
+	R() = _R;
+	G() = _G;
+	B() = _B;
+	A() = _A;
 }
 
 Color::Color(const Color &v) : Vector<TValue,4>::Vector(v)
@@ -92,7 +95,7 @@ TValue Color::saturation(void) const
 
 	if(C!=0)
 	{
-		S=C/(1-abs(2*B-1));
+		S=C/(1-abs(static_cast<float>(2*B-1)));
 	}
 
 	return S;

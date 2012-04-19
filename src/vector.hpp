@@ -17,8 +17,6 @@
 		typedef TValue Type;
 
 		Vector(void); //All coordinates = 0
-		//Vector(TValue _x,...);
-		Vector(double a1, ...);
 		Vector(TValue* dat);
 		Vector(const Vector& v);
 
@@ -66,17 +64,6 @@
 	{
 		for(int i(0); i<dim; i++)
 			coord[i]=0;
-	}
-
-	template<typename T, unsigned int d>
-	Vector<T,d>::Vector(double a1, ...)
-	{
-		va_list coordl;
-		va_start(coordl, a1);
-		coord[0] = static_cast<T>(a1);
-		for(int i=1; i<dim; i++)
-			coord[i] = static_cast<T>( va_arg(coordl,double) );
-		va_end(coordl);
 	}
 
 	template<typename T, unsigned int d>
@@ -300,8 +287,8 @@
 	{
 		flux << '(';
 		for(int i=0; i<(v.dim-1); i++)
-			flux << v.get(i) << ", ";
-		flux << v.get(v.dim-1) << ')';
+			flux << static_cast<float>(v.get(i)) << ", ";
+		flux << static_cast<float>(v.get(v.dim-1)) << ')';
 		return flux;
 	}
 

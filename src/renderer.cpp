@@ -92,8 +92,8 @@
         glBegin(GL_POINTS);
             glColor4ub(col.getR(),col.getG(),col.getB(),col.getA());
             glVertex2f(pt.getX(),pt.getY());
-            std::cout << "Color : " << col << std::endl; // juste pour verifier qu'il affiche (255, 0, 0, 255)?
-            std::cout << col.getR() << ' ' << col.getG() << ' ' << col.getB() << ' ' << col.getA() << std::endl;
+            std::cout << "Color : " << col << std::endl;
+            std::cout << static_cast<int>(col.getR()) << ' ' << static_cast<int>(col.getG()) << ' ' << static_cast<int>(col.getB()) << ' ' << static_cast<int>(col.getA()) << std::endl;
         glEnd();
     }
 

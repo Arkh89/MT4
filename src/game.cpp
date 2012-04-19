@@ -74,8 +74,8 @@
 		static std::vector<Body> bodies(NBody, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
 		static std::vector<SoundSource*> sndSources(NBody,NULL);
 		static std::vector<float> scale(NBody,0.15);
-		static Color col(255,0,0,255);
-		static Color newcol(0,0,0,255);
+		static const Color col(255,0,0,255);
+		static const Color newcol(0,0,0,255);
 
 
 		// Temporary commands :
@@ -180,8 +180,16 @@
 					else // facing right
 						renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(scale[i],scale[i]));
 				}
-				else // Render a point :
+				else
+				{
+					/*Color c;
+					c.R() = 255;
+					c.G() = 128;
+					c.B() = 64;
+					c.A() = 128;*/
+					// Render a point :
 					renderer->draw(bodies[i].getCurPos(t),col,20);
+				}
 
 
 				if(scale[i]>0.15)
