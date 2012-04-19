@@ -123,9 +123,9 @@ Segment& Segment::operator/=(TValue s)
 
 
 
-bool Segment::intersection( const Segment& s1,double& x, double& y)
+bool Segment::intersection( const Segment& s,float& a, float& b)
 {
-    float denom  = ((s1.pt2.getX() - s1.pt1.getX())*(pt2.getY() - pt1.getY())) - ((s1.pt2.getY() - s1.pt1.getY())*(pt2.getX() - pt1.getX()));
+    /*float denom  = ((s1.pt2.getX() - s1.pt1.getX())*(pt2.getY() - pt1.getY())) - ((s1.pt2.getY() - s1.pt1.getY())*(pt2.getX() - pt1.getX()));
 
     if (denom == 0.0) return false;
 
@@ -138,12 +138,31 @@ bool Segment::intersection( const Segment& s1,double& x, double& y)
         x = pt1.getX() + s * (pt2.getX() - pt1.getX());
         y = pt1.getY() + s * (pt2.getY() - pt1.getY());
         return true;
+    }*/
+    float denom = (pt2.getX()-pt1.getX())*(s.pt2.getY()-s.pt1.getY())-(pt2.getY()-pt1.getY())*(s.pt2.getX()-s.pt1.getX());
+    // (Bx-Ax)(Dy-Cy)-(By-Ay)(Dx-Cx)
+
+    if(denom<1e-6)
+        return false;
+
+    a = ((pt1.getY()-s.pt1.getY())*(s.pt2.getX()-s.pt1.getX())-(pt1.getX()-s.pt1.getX())*(s.pt2.getY()-s.pt1.getY())) / denom;
+    // (Ay-Cy)(Dx-Cx)-(Ax-Cx)(Dy-Cy)
+    b = ((pt1.getY()-s.pt1.getY())*(pt2.getX()-pt1.getX())-(pt1.getX()-s.pt1.getX())*(pt2.getY()-pt1.getY())) / denom;
+    // (Ay-Cy)(Bx-Ax)-(Ax-Cx)(By-Ay)
+
+    if(0.0<=a && a<=1.0 && 0.0<=b && b<=1.0)
+        return true;
+    else
+    {
+        a = 0.0f;
+        b = 0.0f;
+        return false;
     }
 }
 
-bool Segment::intersection( const Segment& s1)
-{
-    float denom  = ((s1.pt2.getX() - s1.pt1.getX())*(pt2.getY() - pt1.getY())) - ((s1.pt2.getY() - s1.pt1.getY())*(pt2.getX() - pt1.getX()));
+//bool Segment::intersection( const Segment& s1)
+//{
+    /*float denom  = ((s1.pt2.getX() - s1.pt1.getX())*(pt2.getY() - pt1.getY())) - ((s1.pt2.getY() - s1.pt1.getY())*(pt2.getX() - pt1.getX()));
 
     if (denom == 0.0) return false;
 
@@ -151,5 +170,5 @@ bool Segment::intersection( const Segment& s1)
     float s = ((s1.pt1.getY() - pt1.getY())*(s1.pt2.getX() - s1.pt1.getX())) - ((s1.pt1.getX() - pt1.getX())*(s1.pt2.getY() - s1.pt1.getY())) / denom;
 
     if (r < 0.0 | r > 1.0 | s < 0.0 | s > 1.0) return false;
-    else return true;
-}
+    else return true;*/
+//}

@@ -67,7 +67,8 @@
 		static bool init = false, realRendering=true;
 		static Segment 	s0(-0.7,-0.7,0.7,-0.7),
 				s1(-1.0,0.0,-0.7,-0.7),
-				s2(0.7,-0.7,1.0,0.0);
+				s2(0.7,-0.7,1.0,0.0),
+				s3(1.0,0.0,0.0,1.0);
 		static std::vector<Body> bodies(NBody, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
 		static std::vector<SoundSource*> sndSources(NBody,NULL);
 		static std::vector<float> scale(NBody,0.15);
@@ -121,13 +122,14 @@
                         soundEngine->setListenerPosition(-renderer->center);
 
 			double t = World::getTime();
+			float a,b;
 
 			for(unsigned int i=0; i<bodies.size(); i++)
 			{
 				Vect2D pos = bodies[i].getCurPos(t);
 				Segment s(bodies[i].getCurPos(tPrevious), pos);
 
-				if( s.length()>0 & (s.intersection(s0) | s.intersection(s1) | s.intersection(s2)))
+				if( s.length()>0 & (s.intersection(s0,a,b) | s.intersection(s1,a,b) | s.intersection(s2,a,b) | s.intersection(s3,a,b)))
 				{
 					double s = bodies[i].getSp().norm();
 					double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
@@ -179,6 +181,7 @@
 		renderer->draw(s0);
 		renderer->draw(s1);
 		renderer->draw(s2);
+		renderer->draw(s3);
 		//renderer->draw(*spriteSet,0,Vect2D(0.0,0.0),Vect2D(1.5,1.0));
 		//renderer->draw(*spriteSet,0,Vect2D(-0.5,0.5),Vect2D(0.7,0.5));
 		//renderer->draw(*spriteSet,1,Vect2D(0.5,0.5),Vect2D(0.7,0.5));
