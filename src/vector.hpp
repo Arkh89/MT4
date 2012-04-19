@@ -40,6 +40,7 @@
 		bool   operator!=(const Vector& v) const;
 
 		TValue& operator[](unsigned int i);
+		TValue get(unsigned int i) const;
 
 		void makeUnitary(void);
 
@@ -188,6 +189,11 @@
 		return coord[i];
 	}
 
+	template<typename T, unsigned int d>
+	T Vector<T,d>::get(unsigned int i) const
+	{
+		return coord[i];
+	}
 
 	template<typename T, unsigned int d>
 	Vector<T,d>& Vector<T,d>::operator+=(const Vector<T,d>& v)
@@ -290,12 +296,12 @@
 	}
 
 	template<typename T, unsigned int d>
-	ostream &operator<<( ostream &flux, Vector<T,d> const& v)
+	ostream& operator<<( ostream &flux, const Vector<T,d>& v)
 	{
 		flux << '(';
 		for(int i=0; i<(v.dim-1); i++)
-			flux << v.coord[i] << ", ";
-		flux << v.coord(v.dim-1) << ')';
+			flux << v.get(i) << ", ";
+		flux << v.get(v.dim-1) << ')';
 		return flux;
 	}
 
@@ -318,4 +324,4 @@
 	}
 
 #endif // VECTOR_HPP_INCLUDED
-    
+
