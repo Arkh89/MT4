@@ -4,6 +4,7 @@
 #include "world.hpp"
 #include "keyLayout.hpp"
 #include "soundEngine.hpp"
+#include "color.hpp"
 
 	Game::Game(int& argc, char** argv,int w, int h, int fps)
 	 : renderer(NULL), keyLayout(NULL), timer(NULL), spriteSet(NULL), QApplication(argc,argv)
@@ -60,6 +61,7 @@
 		delete timer;
 	}
 
+	int icol = 0;
 	void Game::update(void)
 	{
 		const unsigned int NBody = 5;
@@ -72,6 +74,9 @@
 		static std::vector<Body> bodies(NBody, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
 		static std::vector<SoundSource*> sndSources(NBody,NULL);
 		static std::vector<float> scale(NBody,0.15);
+		static Color col(255,0,0,255);
+		static Color newcol(0,0,0,255);
+
 
 		// Temporary commands :
 		if(keyLayout->justReleased(KeyEscape))
@@ -111,6 +116,7 @@
 				bodies[i].setNewSpeed(Vect2D(x,y), t);
 				sndSources[i] = new SoundSource(bodies[i].getCurPos(t));
 			}
+			//Body::setGrav(Vect2D(1,8.81));
 		}
 		else
 		{
@@ -156,6 +162,16 @@
 					bodies[i].setNewSpeed(Vect2D(x,y), t);
 				}
 
+				if(icol==300)
+				{
+					cout<<"300";
+				}
+
+				/*if(icol>300)
+				{
+					Color col=newcol;
+				}*/
+
 				// Render a smurf as a particle:
 				if(realRendering)
 				{
@@ -165,7 +181,8 @@
 						renderer->draw(*spriteSet,0,bodies[i].getCurPos(t),Vect2D(scale[i],scale[i]));
 				}
 				else // Render a point :
-					renderer->draw(bodies[i].getCurPos(t),5);
+					renderer->draw(bodies[i].getCurPos(t),col,20);
+
 
 				if(scale[i]>0.15)
 					scale[i] = scale[i]/1.01;
@@ -173,6 +190,7 @@
 					scale[i] = 0.15;
 			}
 			tPrevious = t;
+			icol++;
 		}
 
 		// Unbind current smurf texture
@@ -189,3 +207,4 @@
 
 		renderer->end();
 	}
+

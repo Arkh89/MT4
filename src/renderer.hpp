@@ -5,6 +5,8 @@
 	#include "vect2D.hpp"
 	#include "segment.hpp"
 	#include "sprite.hpp"
+	#include "color.hpp"
+
 
 	class Renderer : public QGLWidget
 	{
@@ -39,6 +41,7 @@
 
 			// Primitive drawing :
 			void draw(const Vect2D& pt, float radius=1.0f);
+			void draw(const Vect2D& pt, const Color& col, float radius=1.0f);
 			void draw(const Segment& s);
 			void draw(const SpriteSet& set, unsigned int sprite, const Vect2D& center, const Vect2D& diag, const Vect2D& loop = Vect2D(0.0,0.0));
 			void drawBackground(void);
