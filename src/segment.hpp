@@ -40,8 +40,7 @@ class Segment
 		Segment& operator/=(TValue s);
 
 		bool intersection( const Segment& s1,float& x, float& y);
-		bool intersection( const Segment& s1);
-
+		Vect2D mirror(const Vect2D& spe);
 
 	protected:
 

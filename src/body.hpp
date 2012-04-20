@@ -18,6 +18,7 @@ class Body
 
 		Vect2D trajectory(double t);
 		Vect2D getCurPos(double t);
+		Vect2D getCurSp(double t);
 		Vect2D getSp(void);
 		Vect2D getPos(void);
 
