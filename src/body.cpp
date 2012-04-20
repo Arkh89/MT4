@@ -35,6 +35,14 @@ Vect2D Body::trajectory(double t)
     return Dv;
 }
 
+Vect2D Body::getCurSp(double t)
+{
+    Vect2D DvS;
+    DvS.x() = ((m/k)*gN.getX() + v.getX() + (R.getX()/k) ) * (exp(-(k/m)*  (t - tI) ))  -  (m/k) * gN.getX() + (R.getX()/k);
+    DvS.y() = ((m/k)*gN.getY() + v.getY() + (R.getY()/k) ) * (exp(-(k/m)*  (t - tI) ))  -  (m/k) * gN.getY() + (R.getY()/k);
+    return DvS;
+}
+
 Vect2D Body::getCurPos(double t)
 {
     return pos + trajectory(t);

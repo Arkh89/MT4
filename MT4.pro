@@ -7,7 +7,6 @@ win32:		LIBS  		+=	../MT4/ext/openal-soft-1.14-bin/lib/Win32/libOpenAL32.dll.a
 else:unix:	LIBS 		+=	-lopenal
 
 HEADERS      			+= 	./src/vect2D.hpp \
-					./src/color.hpp \
 					./src/vector.hpp \
 					./src/exception.hpp \
 					./src/MT4Header.hpp \
@@ -18,16 +17,17 @@ HEADERS      			+= 	./src/vect2D.hpp \
 					./src/body.hpp \
 					./src/keyLayout.hpp \
 					./src/soundEngine.hpp \
+					./src/color.hpp \
 					./src/game.hpp
 SOURCES      			+= 	./src/main.cpp \
 					./src/exception.cpp \
 					./src/segment.cpp \
 					./src/vect2D.cpp \
-					./src/color.cpp \
 					./src/sprite.cpp \
 					./src/renderer.cpp \
 					./src/world.cpp \
 					./src/body.cpp \
 					./src/keyLayout.cpp \
 					./src/soundEngine.cpp \
+					./src/color.cpp \
 					./src/game.cpp

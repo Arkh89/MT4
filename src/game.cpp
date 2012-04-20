@@ -71,7 +71,7 @@
 				s1(-1.0,0.0,-0.7,-0.7),
 				s2(0.7,-0.7,1.0,0.0),
 				s3(1.0,0.0,0.0,1.0);
-		static std::vector<Body> bodies(NBody, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 1, Vect2D(0,0)));
+		static std::vector<Body> bodies(NBody, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 5, Vect2D(0,0)));
 		static std::vector<SoundSource*> sndSources(NBody,NULL);
 		static std::vector<float> scale(NBody,0.15);
 		static const Color col(255,0,0,255);
@@ -112,7 +112,7 @@
 			for(unsigned int i=0; i<bodies.size(); i++)
 			{
 				double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*0.5,
-				y = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*5.0+2.0;
+				y = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*2.0+1.0;
 				bodies[i].setNewSpeed(Vect2D(x,y), t);
 				sndSources[i] = new SoundSource(bodies[i].getCurPos(t));
 			}
@@ -139,10 +139,13 @@
 
 				if( s.length()>0 & (s.intersection(s0,a,b) | s.intersection(s1,a,b) | s.intersection(s2,a,b) | s.intersection(s3,a,b)))
 				{
-					double s = bodies[i].getSp().norm();
-					double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*2.0*0.3;
-					//cout << bodies[i].getSp() <<endl;
-					bodies[i].setNewSpeed(Vect2D(x,s*0.99), t);
+					double tCol = tPrevious*(1-a) + t*a;
+					if (s.intersection(s0,a,b)) bodies[i].setNewSpeed(s0.mirror(bodies[i].getCurSp(tCol)), tCol);
+					if (s.intersection(s1,a,b)) bodies[i].setNewSpeed(s1.mirror(bodies[i].getCurSp(tCol)), tCol);
+					if (s.intersection(s2,a,b)) bodies[i].setNewSpeed(s2.mirror(bodies[i].getCurSp(tCol)), tCol);
+					if (s.intersection(s3,a,b)) bodies[i].setNewSpeed(s3.mirror(bodies[i].getCurSp(tCol)), tCol);
+					pos = bodies[i].getCurPos(tCol);
+
                                         sndSources[i]->setPosition(pos);
                                         sndSources[i]->play(*jump);
 					//cout << bodies[i].getSp() <<endl;
