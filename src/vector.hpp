@@ -97,7 +97,7 @@
 	}
 
 	template<typename T, unsigned int d>
-	Vector<T,d> Vector<T,d>::operator-() const
+	Vector<T,d> Vector<T,d>::operator-(void) const
 	{
 		Vector copie;
 		for(int i=0; i<dim; i++)
@@ -260,7 +260,7 @@
 	template<typename T, unsigned int d>
 	T Vector<T,d>::scalarProd(const Vector<T,d>& v) const
 	{
-		T sprod(0);
+		T sprod = 0;
 		for(int i=0; i<dim; i++)
 			sprod += coord[i]*v.coord[i];
 		return sprod;

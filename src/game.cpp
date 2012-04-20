@@ -135,6 +135,8 @@
 				Vect2D pos = bodies[i].getCurPos(t);
 				Segment s(bodies[i].getCurPos(tPrevious), pos);
 
+				renderer->draw(s);
+
 				if( s.length()>0 & (s.intersection(s0,a,b) | s.intersection(s1,a,b) | s.intersection(s2,a,b) | s.intersection(s3,a,b)))
 				{
 					double s = bodies[i].getSp().norm();
