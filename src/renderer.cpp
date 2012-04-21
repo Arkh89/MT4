@@ -86,6 +86,17 @@
         glEnd();
     }
 
+    void Renderer::draw(const Vect2D& pt, const Color& col, float radius)
+    {
+    	glPointSize(radius);
+        glBegin(GL_POINTS);
+            glColor4ub(col.getR(),col.getG(),col.getB(),col.getA());
+            glVertex2f(pt.getX(),pt.getY());
+            std::cout << "Color : " << col << std::endl;
+            std::cout << static_cast<int>(col.getR()) << ' ' << static_cast<int>(col.getG()) << ' ' << static_cast<int>(col.getB()) << ' ' << static_cast<int>(col.getA()) << std::endl;
+        glEnd();
+    }
+
     void Renderer::draw(const Segment& s)
     {
         glBegin(GL_LINES);

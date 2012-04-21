@@ -73,6 +73,8 @@
 		<Unit filename="../src/body.hpp" />
 		<Unit filename="../src/boundingBox.cpp" />
 		<Unit filename="../src/boundingBox.hpp" />
+		<Unit filename="../src/color.cpp" />
+		<Unit filename="../src/color.hpp" />
 		<Unit filename="../src/exception.cpp" />
 		<Unit filename="../src/exception.hpp" />
 		<Unit filename="../src/game.cpp" />

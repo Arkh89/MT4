@@ -17,6 +17,7 @@ HEADERS      			+= 	./src/vect2D.hpp \
 					./src/body.hpp \
 					./src/keyLayout.hpp \
 					./src/soundEngine.hpp \
+					./src/color.hpp \
 					./src/game.hpp
 SOURCES      			+= 	./src/main.cpp \
 					./src/exception.cpp \
@@ -28,4 +29,5 @@ SOURCES      			+= 	./src/main.cpp \
 					./src/body.cpp \
 					./src/keyLayout.cpp \
 					./src/soundEngine.cpp \
+					./src/color.cpp \
 					./src/game.cpp
