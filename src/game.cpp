@@ -110,10 +110,11 @@
 				bodies[i].setNewSpeed(Vect2D(x,y), t);
 				sndSources[i] = new SoundSource(bodies[i].getCurPos(t));
 			}
+			//Body::setGrav(Vect2D(1,8.81));
 		}
 		else
 		{
-			static double tPrevious = World::getTime() ;
+			static double tPrevious = World::getTime();
 
 			renderer->begin();
 			renderer->drawBackground();
