@@ -20,10 +20,10 @@
 			unsigned int s = 0;
                         jump = new Sound("res/audio/jump.wav");
                         coin = new Sound("res/audio/coin.wav");
-                        soundEngine->setBackgroundSound("res/audio/intro.wav");
+                        soundEngine->setBackgroundSound("res/audio/smurfs.wav");
 
-			spriteSet = new SpriteSet("./res/img/jokeysmurf.png");
-			renderer->setLayer(0,"./res/img/sky.png",0.1);
+			spriteSet = new SpriteSet("./res/img/minisprite.jpg");
+			renderer->setLayer(0,"./res/img/fond.jpg",0.1);
 			renderer->setLayer(1,"./res/img/vegetation.png",0.3);
 			renderer->setLayer(2,"./res/img/ground.png",0.5);
 		}
@@ -34,7 +34,7 @@
 		}
 		//spriteSet->declareSprite(0,0,519,600);
 		//spriteSet->declareSprite(0,0,269,187);
-		spriteSet->declareSprite(0,0,75,75);
+		spriteSet->declareSprite(0,0,97,190);
 
 		// Create Timer :
 		timer = new QTimer;
@@ -75,7 +75,7 @@
 		static std::vector<Body> bodies(NBody, Body(Vect2D(0,0), Vect2D(0,0), 100.0, 5, Vect2D(0,0)));
 		static std::vector<SoundSource*> sndSources(NBody,NULL);
 		static std::vector<float> scale(NBody,0.15);
-		static const Color col(255,0,0,255);
+		static const Color col(0,255,0,255);
 		static const Color newcol(0,0,0,255);
 
 
