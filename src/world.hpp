@@ -7,22 +7,25 @@ using namespace std;
 
 class World
 {
+	private:
+		static double time0;
+		#if defined(_WIN32) || defined(_WIN64)
+			static double freq;
+		#endif
+
+		double deltaFreeze, lastFreezeStart;
+		bool freezed;
 	public:
 
 		World(void);
 		~World(void);
 
-		static double getTime(bool raw = false); // Time ellapsed in seconds
-		static void freeze(void);
-		static void unfreeze(void);
-		static bool isFreezed(void);
-		static void switchFreeze(void);
-	private:
-		static double time0, deltaFreeze, lastFreezeStart;
-		static bool freezed;
-		#if defined(_WIN32) || defined(_WIN64)
-			static double freq;
-		#endif
+		void freeze(void);
+		void unfreeze(void);
+		bool isFreezed(void);
+		void switchFreeze(void);
+
+		double getTime(bool raw = false); // Time ellapsed in seconds
 };
 
 #endif // WORLD_HPP_INCLUDED

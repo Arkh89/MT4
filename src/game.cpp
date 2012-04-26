@@ -102,14 +102,14 @@
 			realRendering = !realRendering;
 		}
 		if(keyLayout->justPressed(KeyReturn))
-			World::switchFreeze();
+			w.switchFreeze();
 
 
 		if(!init)
 		{
 			srand(time(NULL));
 			init = true;
-			double t = World::getTime();
+			double t = w.getTime();
 			for(unsigned int i=0; i<bodies.size(); i++)
 			{
 				double x = (static_cast<double>(rand())/static_cast<double>(RAND_MAX)-0.5)*0.5,
@@ -121,14 +121,14 @@
 		}
 		else
 		{
-			static double tPrevious = World::getTime() ;
+			static double tPrevious = w.getTime() ;
 
 			renderer->begin();
 			renderer->drawBackground();
 
                         soundEngine->setListenerPosition(-renderer->center);
 
-			double t = World::getTime();
+			double t = w.getTime();
 			float a,b;
 
 			for(unsigned int i=0; i<bodies.size(); i++)
@@ -136,7 +136,8 @@
 				Vect2D pos = bodies[i].getCurPos(t);
 				Segment s(bodies[i].getCurPos(tPrevious), pos);
 
-				renderer->draw(s);
+				if(s.length()>1e-3)
+					renderer->draw(s);
 
 				if( s.length()>0 & (s.intersection(s0,a,b) | s.intersection(s1,a,b) | s.intersection(s2,a,b) | s.intersection(s3,a,b) | s.intersection(s4,a,b) ))
 				{
