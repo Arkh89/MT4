@@ -34,17 +34,26 @@
 			renderer->setLayer(2,"./res/img/papa.png",0.5);
 
 			// Network :
-			if(argc>1) //server
+			if(argc>=2)
 			{
-				std::cout << "Creating server..." << std::endl;
-				server = new Server(1220);
+				std::string arg = argv[1];
+				std::cout << "Argument : " << arg << std::endl;
+				if(arg=="-server") //server
+				{
+					std::cout << "Creating server..." << std::endl;
+					server = new Server(1220);
+				}
+				else if(arg=="-client")
+				{
+					std::cout << "Creating connection to server..." << std::endl;
+					connection = new Connection(1221,QHostAddress(QString("100.0.0.1")),1220);
+					connection->sendMessage("Hello World!");
+				}
+				else
+					std::cout << "Network role : " << argv[1] << "unknown." << std::endl;
 			}
 			else
-			{
-				std::cout << "Creating connection to server..." << std::endl;
-				connection = new Connection(1221,QHostAddress(QString("100.0.0.1")),1220);
-				connection->sendMessage("Hello World!");
-			}
+				std::cout << "No Network role defined." << std::endl;
 			// Working on local network :
 			/*server = new Server(1221);
 			connection = new Connection(1221,QHostAddress(QString("127.0.0.1")),1221);
@@ -128,8 +137,8 @@
 		{
 			if(server!=NULL) // This application is the server
 				server->broadcast("Time is freezed on the server at : " + to_string(w.getTime()) + ".");
-			World::switchFreeze();
 			w.switchFreeze();
+		}
 
 
 		if(!init)
@@ -148,11 +157,7 @@
 		}
 		else
 		{
-<<<<<<< HEAD
-			static double tPrevious = World::getTime();
-=======
 			static double tPrevious = w.getTime() ;
->>>>>>> f9803643eafa7f646b48fbdea3fa832cb3b5019b
 
 			renderer->begin();
 			renderer->drawBackground();
