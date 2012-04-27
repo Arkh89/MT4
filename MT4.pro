@@ -1,5 +1,5 @@
 CONFIG 				+= 	qt
-QT           			+= 	opengl
+QT           			+= 	opengl network
 
 win32:		INCLUDEPATH     +=      ./ext/openal-soft-1.14-bin/include
 
@@ -18,6 +18,7 @@ HEADERS      			+= 	./src/vect2D.hpp \
 					./src/keyLayout.hpp \
 					./src/soundEngine.hpp \
 					./src/color.hpp \
+					./src/network.hpp \
 					./src/game.hpp
 SOURCES      			+= 	./src/main.cpp \
 					./src/exception.cpp \
@@ -30,4 +31,5 @@ SOURCES      			+= 	./src/main.cpp \
 					./src/keyLayout.cpp \
 					./src/soundEngine.cpp \
 					./src/color.cpp \
+					./src/network.cpp \
 					./src/game.cpp

@@ -5,9 +5,10 @@
 #include "keyLayout.hpp"
 #include "soundEngine.hpp"
 #include "color.hpp"
+#include "network.hpp"
 
 	Game::Game(int& argc, char** argv,int w, int h, int fps)
-	 : renderer(NULL), keyLayout(NULL), timer(NULL), spriteSet(NULL), QApplication(argc,argv)
+	 : renderer(NULL), keyLayout(NULL), timer(NULL), server(NULL), connection(NULL), spriteSet(NULL), QApplication(argc,argv)
 	{
 		setApplicationName("MT4");
 
@@ -22,10 +23,32 @@
                         coin = new Sound("res/audio/coin.wav");
                         soundEngine->setBackgroundSound("res/audio/smurfs.wav");
 
-			spriteSet = new SpriteSet("./res/img/minisprite.jpg");
-			renderer->setLayer(0,"./res/img/fond.jpg",0.1);
-			renderer->setLayer(1,"./res/img/vegetation.png",0.3);
-			renderer->setLayer(2,"./res/img/ground.png",0.5);
+			//spriteSet = new SpriteSet("./res/img/minisprite.jpg");
+			//renderer->setLayer(0,"./res/img/fond.jpg",0.1);
+			//renderer->setLayer(1,"./res/img/vegetation.png",0.3);
+			//renderer->setLayer(2,"./res/img/ground.png",0.5);
+
+			spriteSet = new SpriteSet("./res/img/papa.png");
+			renderer->setLayer(0,"./res/img/papa.png",0.1);
+			renderer->setLayer(1,"./res/img/papa.png",0.3);
+			renderer->setLayer(2,"./res/img/papa.png",0.5);
+
+			// Network :
+			if(argc>1) //server
+			{
+				std::cout << "Creating server..." << std::endl;
+				server = new Server(1220);
+			}
+			else
+			{
+				std::cout << "Creating connection to server..." << std::endl;
+				connection = new Connection(1221,QHostAddress(QString("100.0.0.1")),1220);
+				connection->sendMessage("Hello World!");
+			}
+			// Working on local network :
+			/*server = new Server(1221);
+			connection = new Connection(1221,QHostAddress(QString("127.0.0.1")),1221);
+			connection->sendMessage("Hello World!");*/
 		}
 		catch(std::exception& e)
 		{
@@ -102,6 +125,9 @@
 			realRendering = !realRendering;
 		}
 		if(keyLayout->justPressed(KeyReturn))
+		{
+			if(server!=NULL) // This application is the server
+				server->broadcast("Time is freezed on the server at : " + to_string(w.getTime()) + ".");
 			World::switchFreeze();
 
 
@@ -151,6 +177,9 @@
                                         sndSources[i]->setPosition(pos);
                                         sndSources[i]->play(*jump);
 					//cout << bodies[i].getSp() <<endl;
+
+					if(server!=NULL) // This application is the server
+						server->broadcast("There is a collision on the server for body " + to_string(i) + "!");
 				}
 
 				if((abs(s.getY1()-s.getY2())<1e-3) && pos.y()>0.2)

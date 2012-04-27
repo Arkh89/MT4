@@ -12,6 +12,8 @@
 	class SoundEngine;
 	class Sound;
         class SoundSource;
+        class Server;
+        class Connection;
 
 	// Class :
 	class Game : public QApplication
@@ -23,6 +25,8 @@
 			Renderer* 	renderer;
 			KeyLayout* 	keyLayout;
 			SoundEngine*	soundEngine;
+			Connection*	connection;
+			Server*		server;
 
 			SpriteSet*	spriteSet;
 			Sound		*jump, *coin;
