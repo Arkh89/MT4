@@ -10,16 +10,14 @@
 #endif
 
 
-double 	World::time0 = 0.0,
-	World::deltaFreeze = 0.0,
-	World::lastFreezeStart = 0.0;
-bool 	World::freezed = false;
+double 	World::time0 = 0.0;
 
 #if defined(_WIN32) || defined(_WIN64)
     double World::freq = 0.0;
 #endif
 
 World::World(void)
+ : deltaFreeze(0.0), lastFreezeStart(0.0), freezed(false)
 {
 	if(time0==0.0)
 	{
@@ -35,6 +33,7 @@ World::World(void)
 			time0 = static_cast<double>(li.QuadPart)/freq;
 		#endif
 	}
+
 }
 
 World::~World(void)
