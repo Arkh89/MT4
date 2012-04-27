@@ -82,6 +82,8 @@
 		<Unit filename="../src/keyLayout.cpp" />
 		<Unit filename="../src/keyLayout.hpp" />
 		<Unit filename="../src/main.cpp" />
+		<Unit filename="../src/network.cpp" />
+		<Unit filename="../src/network.hpp" />
 		<Unit filename="../src/renderer.cpp" />
 		<Unit filename="../src/renderer.hpp" />
 		<Unit filename="../src/segment.cpp" />
