@@ -40,13 +40,26 @@
 				std::cout << "Argument : " << arg << std::endl;
 				if(arg=="-server") //server
 				{
+					if(argc<3)
+						throw Exception("Missing port number to start server.", __FILE__, __LINE__);
 					std::cout << "Creating server..." << std::endl;
-					server = new Server(1220);
+					unsigned short p;
+					if(!from_string(argv[2], p))
+						throw Exception("Unable to read port number : " + std::string(argv[2])+".", __FILE__, __LINE__);
+					server = new Server(p);
 				}
 				else if(arg=="-client")
 				{
-					std::cout << "Creating connection to server..." << std::endl;
-					connection = new Connection(1221,QHostAddress(QString("100.0.0.1")),1220);
+					if(argc<5)
+						throw Exception("Missing port number, server adress and server port to start client.", __FILE__, __LINE__);
+
+					std::cout << "Creating connection to server " << argv[3] << std::endl;
+					unsigned short p, pc;
+					if(!from_string(argv[2], p))
+						throw Exception("Unable to read port number : " + std::string(argv[2])+".", __FILE__, __LINE__);
+					if(!from_string(argv[4], pc))
+						throw Exception("Unable to read server port number : " + std::string(argv[2])+".", __FILE__, __LINE__);
+					connection = new Connection(p,QHostAddress(QString(argv[3])),pc);
 					connection->sendMessage("Hello World!");
 				}
 				else
@@ -54,6 +67,7 @@
 			}
 			else
 				std::cout << "No Network role defined." << std::endl;
+
 			// Working on local network :
 			/*server = new Server(1221);
 			connection = new Connection(1221,QHostAddress(QString("127.0.0.1")),1221);
@@ -155,7 +169,7 @@
 			}
 			//Body::setGrav(Vect2D(1,8.81));
 		}
-		else
+		else if(connection==NULL)
 		{
 			static double tPrevious = w.getTime() ;
 
@@ -188,9 +202,6 @@
                                         sndSources[i]->setPosition(pos);
                                         sndSources[i]->play(*jump);
 					//cout << bodies[i].getSp() <<endl;
-
-					if(server!=NULL) // This application is the server
-						server->broadcast("There is a collision on the server for body " + to_string(i) + "!");
 				}
 
 				if((abs(s.getY1()-s.getY2())<1e-3) && pos.y()>0.2)
@@ -208,6 +219,16 @@
 						//y = static_cast<double>(rand())/static_cast<double>(RAND_MAX)*5.0+2.0;*/
 					//bodies[i].setNewSpeed(Vect2D(x,y), t);
 					bodies[i].setNewSpeed(Vect2D(x,0), t);
+				}
+
+				// All position were computed : send them out
+				if(server!=NULL) // This application is the server
+				{
+					//server->broadcast("There is a collision on the server for body " + to_string(i) + "!");
+					Message msg;
+					for(unsigned int i=0; i<bodies.size(); i++)
+						msg.push(bodies[i].getCurPos(t));
+					server->broadcast(msg);
 				}
 
 				/*if(icol>300)
@@ -242,21 +263,48 @@
 			}
 			tPrevious = t;
 			icol++;
+
+			// Unbind current smurf texture
+			SpriteSet::unbind();
+
+			renderer->draw(s0);
+			renderer->draw(s1);
+			renderer->draw(s2);
+			renderer->draw(s3);
+			renderer->draw(s4);
+			//renderer->draw(*spriteSet,0,Vect2D(0.0,0.0),Vect2D(1.5,1.0));
+			//renderer->draw(*spriteSet,0,Vect2D(-0.5,0.5),Vect2D(0.7,0.5));
+			//renderer->draw(*spriteSet,1,Vect2D(0.5,0.5),Vect2D(0.7,0.5));
+			//SpriteSet::unbind();
+
+			renderer->end();
 		}
+		else
+		{
+			if(connection->hasMessages())
+			{
+				Message m = connection->popBack();
+				connection->clearMessages();
 
-		// Unbind current smurf texture
-		SpriteSet::unbind();
+				renderer->begin();
+				renderer->drawBackground();
 
-		renderer->draw(s0);
-		renderer->draw(s1);
-		renderer->draw(s2);
-		renderer->draw(s3);
-		renderer->draw(s4);
-		//renderer->draw(*spriteSet,0,Vect2D(0.0,0.0),Vect2D(1.5,1.0));
-		//renderer->draw(*spriteSet,0,Vect2D(-0.5,0.5),Vect2D(0.7,0.5));
-		//renderer->draw(*spriteSet,1,Vect2D(0.5,0.5),Vect2D(0.7,0.5));
-		//SpriteSet::unbind();
+				for(int i=0; i<NBody; i++)
+				{
+					Vect2D pos = m.pullVect2D();
+					renderer->draw(*spriteSet,0,pos,Vect2D(-0.15,0.15));
+				}
 
-		renderer->end();
+				SpriteSet::unbind();
+
+				renderer->draw(s0);
+				renderer->draw(s1);
+				renderer->draw(s2);
+				renderer->draw(s3);
+				renderer->draw(s4);
+
+				renderer->end();
+			}
+		}
 	}
 

@@ -11,6 +11,9 @@ using namespace std;
 typedef float TValue;
 class Segment
 {
+	private:
+		void updateNormalVector(void);
+		Vect2D pt1,pt2,n;
 	public:
 		Segment(void);
 		Segment(TValue _x1, TValue _y1, TValue _x2, TValue _y2);
@@ -41,12 +44,6 @@ class Segment
 
 		bool intersection( const Segment& s1,float& x, float& y);
 		Vect2D mirror(const Vect2D& spe);
-
-	protected:
-
-	private:
-		void updateNormalVector(void);
-		Vect2D pt1,pt2,n;
 };
 
 #endif // SEGMENT_HPP_INCLUDED

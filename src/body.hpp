@@ -7,6 +7,10 @@ using namespace std;
 
 class Body
 {
+	private:
+		Vect2D pos,v,R; 	// Position & Speed
+		double m,k,tI; 		// Mass & friction coefficient & Initial time
+		static Vect2D gN; 	// Gravitation constant 9,81 m.s-2
 	public:
 
 		Body(void);
@@ -25,12 +29,7 @@ class Body
 		void setNewSpeed(Vect2D s,double ti);
 		void teleport(const Vect2D& p,double ti);
 
-        static void setGrav(Vect2D gNew); // To define again the gravitation constant => extended gameplay possibilities
-
-	private:
-		Vect2D pos,v,R; // Position & Speed
-		double m,k,tI; // Mass & friction coefficient & Initial time
-		static Vect2D gN; // Gravitation constant 9,81 m.s-2
+		static void setGrav(Vect2D gNew); // To define again the gravitation constant => extended gameplay possibilities
 };
 
 #endif // BODY_HPP_INCLUDED
