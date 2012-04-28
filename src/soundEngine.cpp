@@ -6,7 +6,7 @@
         Sound::Sound(const std::string& filename)
 	{
 		//See https://ccrma.stanford.edu/courses/422/projects/WaveFormat/ for more informations
-
+		
 		int length, offset;
 		char* fileBuffer;
 		std::fstream file;
@@ -15,7 +15,7 @@
 		if(!file.is_open())
 			throw Exception("Sound::Sound - Unable to load file : " + filename + ".", __FILE__, __LINE__);
 
-		// get length of file :
+		// get length of file:
 		file.seekg (0, std::ios::end);
 		length = file.tellg();
 		file.seekg (0, std::ios::beg);
@@ -93,7 +93,7 @@
 
 		if(alGetError()!=AL_NO_ERROR)
 			throw Exception("Sound::Sound - Unable to read file : " + filename + ". An OpenAL error occured.", __FILE__, __LINE__);
-
+			
 		std::cout << "	File loaded successfully" << std::endl;
 	}
 

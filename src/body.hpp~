@@ -27,8 +27,6 @@ class Body
 		Vect2D getSp(void);
 		Vect2D getPos(void);
 
-		Body& operator=(const Body& bod);
-
 		void setNewSpeed(Vect2D s,double ti);
 		void teleport(const Vect2D& p,double ti);
 

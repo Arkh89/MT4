@@ -28,7 +28,6 @@
 			SoundEngine*	soundEngine;
 			Connection*	connection;
 			Server*		server;
-			World* 		world;
 
 			SpriteSet*	spriteSet;
 			Sound		*jump, *coin;

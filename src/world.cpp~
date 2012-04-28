@@ -94,6 +94,7 @@ void World::switchFreeze(void)
 		freeze();
 }
 
+
 void World::addSeg(Segment& seg)
 {
 	segments.push_back(seg);

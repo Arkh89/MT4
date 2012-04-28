@@ -6,6 +6,13 @@ Segment::Segment(void)
 
 }
 
+Segment::Segment(const Segment& seg)
+{
+	pt1 = seg.pt1;
+	pt2 = seg.pt2;
+	n = seg.n;
+}
+
 Segment::Segment(TValue _x1, TValue _y1, TValue _x2, TValue _y2)
  : pt1(_x1,_y1), pt2(_x2,_y2)
 {
@@ -17,6 +24,10 @@ Segment::Segment(const Vect2D& vect1, const Vect2D& vect2)
 {
     updateNormalVector();
 
+}
+
+Segment::~Segment(void)
+{
 }
 
 TValue Segment::getX1(void) const { return pt1.getX(); }
@@ -103,6 +114,14 @@ void Segment::operator>>(const Segment& seg)
 {
     pt1 = seg.pt2;
     updateNormalVector();
+}
+
+Segment& Segment::operator=(const Segment& seg)
+{
+    pt1 = seg.pt1;
+    pt2 = seg.pt2;
+    n=seg.n;
+    return *this;
 }
 
 

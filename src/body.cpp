@@ -7,6 +7,16 @@ Vect2D Body::gN = Vect2D(0.0,9.81);
 Body::Body(void)
 { }
 
+Body::Body(const Body& bod)
+{
+    pos = bod.pos;
+    v = bod.v;
+    R = bod.R;
+    m = bod.m;
+    k = bod.k;
+    tI = bod.tI;
+}
+
 Body::Body(const Vect2D& pos0, double _m, double _k)
  : pos(pos0), m(_m), k(_k), tI(0.0)
 { }
@@ -74,4 +84,16 @@ void Body::teleport(const Vect2D& p, double ti)
 void Body::setGrav(Vect2D gNew)
 {
     gN = gNew;
+}
+
+
+Body& Body::operator=(const Body& bod)
+{
+	pos = bod.pos;
+	v = bod.v;
+	R = bod.R;
+	m = bod.m;
+	k = bod.k;
+	tI = bod.tI;
+	return *this;
 }

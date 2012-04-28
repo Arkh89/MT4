@@ -41,7 +41,6 @@ class Segment
 
 		void operator<<(const Segment& seg);
 		void operator>>(const Segment& seg);
-		Segment& operator=(const Segment& seg);
 		Segment& operator*=(TValue s);
 		Segment& operator/=(TValue s);
 

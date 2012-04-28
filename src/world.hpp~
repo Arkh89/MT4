@@ -35,9 +35,6 @@ class World
 		void addBod(Body& bod);
 		void delSeg(unsigned int i);
 		void delBod(unsigned int i);
-
-		std::vector<Segment> segments;
-		std::vector<Body> bodies;
 };
 
 #endif // WORLD_HPP_INCLUDED
